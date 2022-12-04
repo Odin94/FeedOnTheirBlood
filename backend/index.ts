@@ -1,7 +1,7 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
-import path from "path";
-import cors from "cors";
+import { startWork, Work } from "./features/work";
 
 dotenv.config();
 
@@ -21,9 +21,14 @@ app.listen(port, () => {
 });
 
 
-interface FormInputs {
+interface LoginFormInputs {
     email: string,
     password: string
+}
+
+interface WorkFormInputs {
+    duration: 1 | 2 | 3 | 4 | 5,
+    type: "someWork"
 }
 
 // Array of example users for testing purposes
@@ -44,7 +49,7 @@ const users = [
 
 // route login
 app.post('/login', (req: Request, res: Response) => {
-    const { email, password }: FormInputs = req.body;
+    const { email, password }: LoginFormInputs = req.body;
 
     const user = users.find(user => {
         return user.email === email && user.password === password
@@ -57,3 +62,15 @@ app.post('/login', (req: Request, res: Response) => {
     return res.status(200).json(user)
 });
 
+
+app.post('/work', (req: Request, res: Response) => {
+    const { duration, type }: WorkFormInputs = req.body;
+    const userId = "Pretend we have a cookie lel"
+
+    const work = startWork(userId, duration, type)
+
+    if (work) {
+        return res.status(200).json(work)
+    }
+    return res.status(400).json({ error: "already working" })
+});
