@@ -1,11 +1,10 @@
 
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import { ReactComponent as Logo } from "./logo.svg";
-import './App.css';
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import Vampires from "./pages/Vampires";
-import Login from "./pages/Login";
+import './App.css';
 import CreateVampire from "./pages/CreateVampire";
+import Login from "./pages/Login";
+import UpdateVampire from "./pages/UpdateVampire";
+import Vampires from "./pages/Vampires";
 
 const App = () => {
   return (
@@ -20,6 +19,7 @@ const App = () => {
         <Route path="/" element={<Vampires />} />
         <Route path="/create" element={<CreateVampire />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/vampires/:id" element={<UpdateVampire />} />
       </Routes>
     </BrowserRouter>
   )

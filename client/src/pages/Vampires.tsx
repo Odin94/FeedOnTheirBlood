@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { Grid } from "@mantine/core";
 import VampireCard from "../components/VampireCard";
-import { getVampires, Vampires } from "../lib/vampires.type";
+import { getVampires, Vampires } from "../api/vampires.type";
 
 const VampiresPage = () => {
     const [fetchError, setFetchError] = useState<string | null>(null)
@@ -34,8 +34,8 @@ const VampiresPage = () => {
                     <div className="vampire-grid">
                         <Grid>
                             {vampires.map((vampire) => (
-                                <Grid.Col span={6}>
-                                    <VampireCard key={vampire.id} vampire={vampire} />
+                                <Grid.Col key={vampire.id} span={6}>
+                                    <VampireCard vampire={vampire} />
                                 </Grid.Col>
                             ))}
                         </Grid>

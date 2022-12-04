@@ -1,9 +1,12 @@
 import { Image, Badge, Button, Card, Group, Text } from '@mantine/core';
-import { Vampire } from "../lib/vampires.type";
+import { useNavigate } from 'react-router-dom';
+import { Vampire } from "../api/vampires.type";
 import bloodIcon from '../images/blood-svgrepo-com.svg'
 import healthIcon from '../images/health-cross-svgrepo-com.svg'
 
 const VampireCard = ({ vampire }: { vampire: Vampire }) => {
+    const navigate = useNavigate();
+
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
@@ -32,7 +35,7 @@ const VampireCard = ({ vampire }: { vampire: Vampire }) => {
                 <img alt="blood" src={bloodIcon} width="20" /> {vampire?.current_blood} / {vampire?.max_blood}
             </Text>
 
-            <Button variant="light" color="blue" fullWidth mt="md" radius="md">
+            <Button variant="light" color="blue" fullWidth mt="md" radius="md" onClick={() => { navigate(`/vampires/${vampire.id}`) }}>
                 See more
             </Button>
         </Card>
