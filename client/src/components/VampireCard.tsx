@@ -36,7 +36,7 @@ const VampireCard = ({ vampire }: { vampire: Vampire }) => {
             </Text>
 
             <Button variant="light" color="blue" fullWidth mt="md" radius="md" onClick={() => { navigate(`/vampires/${vampire.id}`) }}>
-                See more
+                Edit
             </Button>
         </Card>
     )
