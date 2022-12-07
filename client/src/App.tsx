@@ -1,8 +1,9 @@
 
-import { AppShell, Box, Container, Header, Navbar, Text } from "@mantine/core";
+import { AppShell, Container, Header, Navbar, Text } from "@mantine/core";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import './App.css';
 import CreateVampire from "./pages/CreateVampire";
+import Hunt from "./pages/Hunt";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import UpdateVampire from "./pages/UpdateVampire";
@@ -27,6 +28,9 @@ const App = () => {
               <Text component={Link} variant="link" to="/create">
                 Create New Vampire
               </Text>
+              <Text component={Link} variant="link" to="/hunt">
+                Hunt
+              </Text>
             </div>
           }</Navbar>}
         header={<Header height={60} p="xs">{
@@ -43,6 +47,7 @@ const App = () => {
           <Route path="/" element={<Vampires />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/create" element={<CreateVampire />} />
+          <Route path="/hunt" element={<Hunt />} />
           <Route path="/login" element={<Login />} />
           <Route path="/vampires/:id" element={<UpdateVampire />} />
         </Routes>
