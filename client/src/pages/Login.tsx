@@ -1,11 +1,12 @@
 
-import { Button } from "@mantine/core";
-import { useState } from "react";
+import { Button, Loader, Text } from "@mantine/core";
+import { useEffect, useState } from "react";
 import { getCurrentUser } from "../api/user.type";
 
 import { Box, Group, TextInput } from '@mantine/core';
-import supabase from "../utils/supabase";
 import { useForm } from "@mantine/form";
+import { Session } from "@supabase/supabase-js";
+import supabase from "../utils/supabase";
 
 interface FormValues {
     email: string,
@@ -23,25 +24,41 @@ const signInWithGitHub = async () => {
     console.log(`${JSON.stringify({ data, error })}`)
 }
 
-const signout = async () => {
-    const { error } = await supabase.auth.signOut()
-}
-
-const signInWithEmail = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email, password,
-    })
-}
-
 const Login = () => {
-    const [loginStatus, setLoginStatus] = useState("")
+    const [session, setSession] = useState<Session | null>(null)
+    const [loading, setLoading] = useState(true)
 
-    const signUpWithEmail = async (email: string, password: string) => {
-        const { data, error } = await supabase.auth.signUp({
+    useEffect(() => {
+        const getSession = async () => {
+            const { data } = await supabase.auth.getSession()
+            setSession(data.session)
+            setLoading(false)
+        }
+        getSession()
+    }, [])
+
+    const signInWithEmail = async (email: string, password: string) => {
+        const { data, error } = await supabase.auth.signInWithPassword({
             email, password,
         })
 
         console.log({ data, error })
+
+        if (data) {
+            setSession(data.session)
+        }
+
+        return { data, error }
+    }
+
+    const signout = async () => {
+        const { error } = await supabase.auth.signOut()
+
+        if (!error) {
+            setSession(null)
+        }
+
+        return { error }
     }
 
     const form = useForm<FormValues>({
@@ -56,35 +73,51 @@ const Login = () => {
         },
     });
 
+    if (loading) {
+        return (
+            <Box sx={{ maxWidth: 300 }} mx="auto">
+                <Loader />
+            </Box>
+        )
+    }
+
     return (
         <Box sx={{ maxWidth: 300 }} mx="auto">
-            <form onSubmit={form.onSubmit(({ email, password }) => signUpWithEmail(email, password))}>
-                <TextInput
-                    type={"email"}
-                    withAsterisk
-                    label="Email"
-                    placeholder="your@email.com"
-                    {...form.getInputProps('email')}
-                />
+            {session == null ? <div>
+                <form onSubmit={form.onSubmit(({ email, password }) => signInWithEmail(email, password))}>
+                    <TextInput
+                        type={"email"}
+                        withAsterisk
+                        label="Email"
+                        placeholder="your@email.com"
+                        {...form.getInputProps('email')}
+                    />
 
-                <TextInput
-                    type={"password"}
-                    withAsterisk
-                    label="Password"
-                    placeholder="your@email.com"
-                    {...form.getInputProps('password')}
-                />
+                    <TextInput
+                        type={"password"}
+                        withAsterisk
+                        label="Password"
+                        placeholder="your@email.com"
+                        {...form.getInputProps('password')}
+                    />
 
-                <Group position="right" mt="md">
-                    <Button type="submit">Submit</Button>
-                </Group>
-            </form>
+                    <Group position="right" mt="md">
+                        <Button type="submit">Login</Button>
+                    </Group>
+                </form>
 
-            <hr />
+                <hr />
 
-            <Button color="gray" onClick={signInWithGitHub}>
-                SignIn with Github
-            </Button>
+                <Button color="gray" onClick={signInWithGitHub}>
+                    SignIn with Github
+                </Button>
+            </div>
+                : <div>
+                    <Text>You are already logged in</Text>
+                    <Group position="right" mt="md">
+                        <Button onClick={() => { signout() }} type="submit">Logout</Button>
+                    </Group>
+                </div>}
         </Box>
     );
 }
