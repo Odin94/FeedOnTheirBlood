@@ -1,6 +1,6 @@
 # A string used to distinguish different Supabase projects on the same host. Defaults to the working
 # directory name when running `supabase init`.
-project_id = "Feast on their Blood"
+project_id = "feast_on_their_blood"
 
 [api]
 # Port to use for the API URL.

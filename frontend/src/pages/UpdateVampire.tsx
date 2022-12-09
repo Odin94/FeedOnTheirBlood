@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Card, Container, Group, Image, Text, TextInput } from "@mantine/core";
+import { Badge, Button, Card, Container, Group, Image, Text, TextInput } from "@mantine/core";
 import { useForm, UseFormReturnType } from '@mantine/form';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';

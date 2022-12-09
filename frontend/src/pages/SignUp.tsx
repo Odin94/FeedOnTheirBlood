@@ -1,6 +1,5 @@
-import { TextInput, Button, Group, Box } from '@mantine/core';
+import { Box, Button, Group, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useState } from 'react';
 import supabase from '../utils/supabase';
 
 interface FormValues {
@@ -9,8 +8,6 @@ interface FormValues {
 }
 
 const SignUp = () => {
-    const [signupStatus, setSignupStatus] = useState("")
-
     const signUpWithEmail = async (email: string, password: string) => {
         const { data, error } = await supabase.auth.signUp({
             email, password,
