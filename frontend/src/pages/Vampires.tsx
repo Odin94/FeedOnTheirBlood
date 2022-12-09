@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 
 import { Grid } from "@mantine/core";
 import VampireCard from "../components/VampireCard";
-import { getVampires, Vampires } from "../api/vampires.type";
+import { getMyVampires, Vampires } from "../api/vampires.type";
 
 const VampiresPage = () => {
     const [fetchError, setFetchError] = useState<string | null>(null)
     const [vampires, setVampires] = useState<Vampires | null>(null)
     useEffect(() => {
         const fetchVampires = async () => {
-            const { data, error } = await getVampires()
+            const { data, error } = await getMyVampires()
 
             if (error) {
                 setFetchError("Failed to fetch vampires")

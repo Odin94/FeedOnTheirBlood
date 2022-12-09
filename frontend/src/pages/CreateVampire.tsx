@@ -21,8 +21,6 @@ const CreateVampire = () => {
     });
 
     const submitCreateVampire = async (form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>) => {
-        console.log(form.values.name)
-
         const vampire: VampireInsert = {
             max_health: 10,
             current_health: 10,

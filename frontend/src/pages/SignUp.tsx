@@ -1,6 +1,6 @@
 import { Box, Button, Group, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import supabase from '../utils/supabase';
+import { useSignUpWithEmail } from '../api/user.type';
 
 interface FormValues {
     email: string,
@@ -8,14 +8,6 @@ interface FormValues {
 }
 
 const SignUp = () => {
-    const signUpWithEmail = async (email: string, password: string) => {
-        const { data, error } = await supabase.auth.signUp({
-            email, password,
-        })
-
-        console.log({ data, error })
-    }
-
     const form = useForm<FormValues>({
         initialValues: {
             email: '',
@@ -27,10 +19,12 @@ const SignUp = () => {
             password: (value) => value.length >= 8 ? null : 'Password too short',
         },
     });
+    const signUpWithEmailMutation = useSignUpWithEmail(form.values.email, form.values.password)
+
 
     return (
         <Box sx={{ maxWidth: 300 }} mx="auto">
-            <form onSubmit={form.onSubmit(({ email, password }) => signUpWithEmail(email, password))}>
+            <form onSubmit={form.onSubmit((_values) => signUpWithEmailMutation.mutate())}>
                 <TextInput
                     type={"email"}
                     withAsterisk

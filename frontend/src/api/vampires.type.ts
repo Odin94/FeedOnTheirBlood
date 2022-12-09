@@ -1,8 +1,14 @@
 import supabase from '../utils/supabase'
 import { Database } from './database.types'
+import { getCurrentUser } from './user.type'
 
 export async function getVampires() {
     return await supabase.from('vampires').select()
+}
+
+export async function getMyVampires() {
+    const user = await getCurrentUser()
+    return await supabase.from('vampires').select('*, clans!inner(*)').eq('clans.user_id', user.id)
 }
 
 export async function insertVampire(vampire: VampireInsert) {

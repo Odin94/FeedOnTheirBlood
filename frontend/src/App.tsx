@@ -1,5 +1,6 @@
 
 import { AppShell } from "@mantine/core";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 import AppShellHeader from "./components/AppShellHeader";
@@ -11,26 +12,38 @@ import SignUp from "./pages/SignUp";
 import UpdateVampire from "./pages/UpdateVampire";
 import Vampires from "./pages/Vampires";
 
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0
+    }
+  }
+})
+
 const App = () => {
   return (
-    <BrowserRouter>
-      <AppShell
-        navbar={<AppShellNavbar />}
-        header={<AppShellHeader />}
-        styles={(theme) => ({
-          main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
-        })}
-      >
-        <Routes>
-          <Route path="/" element={<Vampires />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/create" element={<CreateVampire />} />
-          <Route path="/hunt" element={<Hunt />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/vampires/:id" element={<UpdateVampire />} />
-        </Routes>
-      </AppShell>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+
+      <BrowserRouter>
+        <AppShell
+          navbar={<AppShellNavbar />}
+          header={<AppShellHeader />}
+          styles={(theme) => ({
+            main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+          })}
+        >
+          <Routes>
+            <Route path="/" element={<Vampires />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/create" element={<CreateVampire />} />
+            <Route path="/hunt" element={<Hunt />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/vampires/:id" element={<UpdateVampire />} />
+          </Routes>
+        </AppShell>
+      </BrowserRouter>
+    </QueryClientProvider>
   )
 }
 
