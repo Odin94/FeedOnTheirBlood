@@ -22,35 +22,33 @@ const Hunt = () => {
     }
 
     return (
-        <Box sx={{ maxWidth: 600 }} mx="auto">
-            <form onSubmit={form.onSubmit((_values) => startHunt(form.values))}>
-                <Group position="center" mt="md">
+        <form onSubmit={form.onSubmit((_values) => startHunt(form.values))}>
+            <Group position="center" mt="md">
 
-                    <SegmentedControl
-                        name="time"
-                        color="red"
-                        transitionDuration={200}
-                        transitionTimingFunction="linear"
-                        {...form.getInputProps('time')}
-                        data={[
-                            { label: 'Quick - 10 min', value: '10' },
-                            { label: 'Medium - 30 min', value: '30' },
-                            { label: 'Long - 60 min', value: '60' },
-                            { label: 'Extensive - 120 min', value: '120' },
-                        ]}
-                    />
-                </Group>
+                <SegmentedControl
+                    name="time"
+                    color="red"
+                    transitionDuration={200}
+                    transitionTimingFunction="linear"
+                    {...form.getInputProps('time')}
+                    data={[
+                        { label: 'Quick - 10 min', value: '10' },
+                        { label: 'Medium - 30 min', value: '30' },
+                        { label: 'Long - 60 min', value: '60' },
+                        { label: 'Extensive - 120 min', value: '120' },
+                    ]}
+                />
+            </Group>
 
-                <Group position="center" mt="xl">
-                    <Button
-                        type="submit"
-                        color="grape"
-                        size="lg"
-                        leftIcon={<img alt="fangs" src={fangsIcon} width="20" style={{ filter: "invert(96%) sepia(4%) saturate(1720%) hue-rotate(217deg) brightness(111%) contrast(100%)" }} />}
-                    >Hunt!</Button>
-                </Group>
-            </form>
-        </Box>
+            <Group position="center" mt="xl">
+                <Button
+                    type="submit"
+                    color="grape"
+                    size="lg"
+                    leftIcon={<img alt="fangs" src={fangsIcon} width="20" style={{ filter: "invert(96%) sepia(4%) saturate(1720%) hue-rotate(217deg) brightness(111%) contrast(100%)" }} />}
+                >Hunt!</Button>
+            </Group>
+        </form>
     )
 }
 

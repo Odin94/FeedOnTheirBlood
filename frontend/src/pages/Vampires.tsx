@@ -1,6 +1,6 @@
 
 
-import { Grid, Loader } from "@mantine/core";
+import { Grid, Loader, Text } from "@mantine/core";
 import { useGetMyVampires } from "../api/vampires.type";
 import VampireCard from "../components/VampireCard";
 
@@ -8,9 +8,9 @@ const VampiresPage = () => {
     const { data: vampires, isLoading, error } = useGetMyVampires()
 
     return (
-        <div className='App-header'>
-            {isLoading ? <Loader /> : null}
-            {error ? (<p>{(error as Error).message}</p>) : null}
+        <>
+            {isLoading ? <Loader color="grape" /> : null}
+            {error ? (<Text color="red">{(error as Error).message}</Text>) : null}
             {vampires ? (
                 <div className="vampires">
                     <div className="vampire-grid">
@@ -24,7 +24,7 @@ const VampiresPage = () => {
                     </div>
                 </div>
             ) : null}
-        </div>
+        </>
     );
 }
 

@@ -1,3 +1,4 @@
+import { useQuery } from "react-query";
 import supabase from "../utils/supabase";
 import { Database } from "./database.types";
 import { getCurrentUser } from "./user.type";
@@ -14,6 +15,10 @@ export async function getMyClan() {
     if (error) throw error
 
     return data
+}
+
+export const useMyClan = () => {
+    return useQuery('clans', () => getMyClan())
 }
 
 type ClansResponse = Awaited<ReturnType<typeof getClans>>

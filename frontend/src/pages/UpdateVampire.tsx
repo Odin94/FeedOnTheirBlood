@@ -19,14 +19,14 @@ const UpdateVampire = () => {
     if (isLoading) {
         return (
             <Container size="xs" px="xs">
-                <Loader></Loader>
+                <Loader color="grape" />
             </Container>
         )
     }
     if (error) {
         return (
-            <Container size="xs" px="xs">
-                <Text>{JSON.stringify(error)}</Text>
+            <Container size="xs" px="xs" color="red">
+                <Text>{(error as Error).message}</Text>
             </Container>
         )
     }
@@ -67,7 +67,7 @@ const UpdateForm = ({ vampire: existingVampire }: { vampire: Vampire }) => {
 
     return (
         <div>
-            {updateVampireMutation.isLoading ? <Loader /> : <h1>{submitState}</h1>}
+            {updateVampireMutation.isLoading ? <Loader color="grape" /> : <h1>{submitState}</h1>}
             <form onSubmit={form.onSubmit((_values) => submitUpdateVampire(form, existingVampire))}>
                 <Card shadow="sm" p="lg" radius="md" withBorder>
                     <Card.Section>

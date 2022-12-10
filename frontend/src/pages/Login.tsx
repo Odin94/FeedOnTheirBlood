@@ -1,7 +1,7 @@
 
 import { Button, Loader, Text } from "@mantine/core";
 
-import { Box, Group, TextInput } from '@mantine/core';
+import { Group, TextInput } from '@mantine/core';
 import { useForm } from "@mantine/form";
 import { useSession, useSignInWithEmail, useSignInWithGithub, useSignOut } from "../api/user.type";
 
@@ -31,29 +31,23 @@ const Login = () => {
 
     if (sessionIsLoading) {
         return (
-            <Box sx={{ maxWidth: 300 }} mx="auto">
-                <Loader />
-            </Box>
+            <Loader color="grape" />
         )
     }
 
     if (signInWithEmailMutation.isError) {
         return (
-            <Box sx={{ maxWidth: 300 }} mx="auto">
-                <Text color="red">Error: {(signInWithEmailMutation.error as Error).message}</Text>
-            </Box >
+            <Text color="red">Error: {(signInWithEmailMutation.error as Error).message}</Text>
         )
     }
     if (signOutMutation.isError) {
         return (
-            <Box sx={{ maxWidth: 300 }} mx="auto">
-                <Text color="red">Error: {(signOutMutation.error as Error).message}</Text>
-            </Box >
+            <Text color="red">Error: {(signOutMutation.error as Error).message}</Text>
         )
     }
 
     return (
-        <Box sx={{ maxWidth: 300 }} mx="auto">
+        <>
             {!!session
                 ? <div>
                     <Text>You are already logged in</Text>
@@ -92,7 +86,7 @@ const Login = () => {
                     {(signInWithEmailMutation.isLoading || signOutMutation.isLoading) ? <Loader /> : null}
                 </div>
             }
-        </Box >
+        </>
     );
 }
 

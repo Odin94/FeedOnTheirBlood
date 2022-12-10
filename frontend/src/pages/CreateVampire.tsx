@@ -42,23 +42,21 @@ const CreateVampire = () => {
     }
 
     return (
-        <div>
+        <>
             <h1>{submitState}</h1>
-            <Box sx={{ maxWidth: 300 }} mx="auto">
-                <form onSubmit={form.onSubmit((_values) => submitCreateVampire(form))}>
-                    <TextInput
-                        withAsterisk
-                        label="Name"
-                        placeholder="Nosferatu"
-                        {...form.getInputProps('name')}
-                    />
+            <form onSubmit={form.onSubmit((_values) => submitCreateVampire(form))}>
+                <TextInput
+                    withAsterisk
+                    label="Name"
+                    placeholder="Nosferatu"
+                    {...form.getInputProps('name')}
+                />
 
-                    <Group position="right" mt="md">
-                        <Button type="submit" color="grape">Submit</Button>
-                    </Group>
-                </form>
-            </Box>
-        </div>
+                <Group position="right" mt="md">
+                    <Button type="submit" color="grape">Submit</Button>
+                </Group>
+            </form>
+        </>
     )
 }
 

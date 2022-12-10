@@ -59,7 +59,7 @@ export const useSignInWithGithub = () => {
     const queryClient = useQueryClient()
 
     return useMutation('signIn', () => signInWithGithub(), {
-        onSuccess: () => queryClient.invalidateQueries('session')
+        onSuccess: () => queryClient.invalidateQueries()
     })
 }
 
@@ -77,7 +77,7 @@ export const useSignInWithEmail = (email: string, password: string) => {
     const queryClient = useQueryClient()
 
     return useMutation(() => signInWithEmail(email, password), {
-        onSuccess: () => queryClient.invalidateQueries('session')
+        onSuccess: () => queryClient.invalidateQueries()
     })
 }
 
