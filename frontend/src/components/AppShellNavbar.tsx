@@ -5,6 +5,11 @@ import { useSession } from "../api/user.type"
 
 import moonIcon from '../images/full-moon-halloween-svgrepo-com.svg';
 import knifeIcon from '../images/knife-svgrepo-com.svg';
+import bloodIcon from '../images/blood-svgrepo-com.svg'
+import coinIcon from '../images/coin-svgrepo-com.svg'
+import crownIcon from '../images/crown-svgrepo-com.svg'
+import policeIcon from '../images/police-badge-svgrepo-com.svg'
+
 
 {/* filter property for coloring svgs: https://codepen.io/sosuke/pen/Pjoqqp */ }
 const oliveSvgFilter = "invert(96%) sepia(4%) saturate(1720%) hue-rotate(217deg) brightness(111%) contrast(100%)"
@@ -57,14 +62,14 @@ const AppShellNavbar = () => {
                 <Stack>
                     {
                         clan
-                            ? <><Text>a</Text>
-                                <Text>a</Text>
-                                <Text>a</Text>
-                                <Text>a</Text>
+                            ? <>
+                                <Text><img alt="blood" src={bloodIcon} width="20" style={{ marginRight: "5px" }} /> {clan.blood}</Text>
+                                <Text><img alt="money" src={coinIcon} width="20" style={{ marginRight: "5px" }} /> {clan.money}</Text>
+                                <Text><img alt="influence" src={crownIcon} width="20" style={{ marginRight: "5px" }} /> {clan.influence}</Text>
+                                <Text><img alt="notoriety" src={policeIcon} width="20" style={{ marginRight: "5px" }} /> {clan.notoriety}</Text>
                             </>
                             : null
                     }
-
                 </Stack>
             </Navbar.Section>
         </Navbar >
