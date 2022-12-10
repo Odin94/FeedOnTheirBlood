@@ -42,7 +42,7 @@ const SignUp = () => {
                 />
 
                 <Group position="right" mt="md">
-                    <Button type="submit">Submit</Button>
+                    <Button color="grape" type="submit">Sign up</Button>
                 </Group>
             </form>
         </Box>

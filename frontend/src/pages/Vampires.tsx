@@ -1,34 +1,16 @@
 
-import { useEffect, useState } from "react";
 
-import { Grid } from "@mantine/core";
+import { Grid, Loader } from "@mantine/core";
+import { useGetMyVampires } from "../api/vampires.type";
 import VampireCard from "../components/VampireCard";
-import { getMyVampires, Vampires } from "../api/vampires.type";
 
 const VampiresPage = () => {
-    const [fetchError, setFetchError] = useState<string | null>(null)
-    const [vampires, setVampires] = useState<Vampires | null>(null)
-    useEffect(() => {
-        const fetchVampires = async () => {
-            const { data, error } = await getMyVampires()
-
-            if (error) {
-                setFetchError("Failed to fetch vampires")
-                setVampires(null)
-                console.log(error)
-            }
-            if (data) {
-                setVampires(data)
-                setFetchError(null)
-            }
-        }
-
-        fetchVampires()
-    }, [])
+    const { data: vampires, isLoading, error } = useGetMyVampires()
 
     return (
         <div className='App-header'>
-            {fetchError ? (<p>{fetchError}</p>) : null}
+            {isLoading ? <Loader /> : null}
+            {error ? (<p>{(error as Error).message}</p>) : null}
             {vampires ? (
                 <div className="vampires">
                     <div className="vampire-grid">

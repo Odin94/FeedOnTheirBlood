@@ -1,8 +1,8 @@
-import { Badge, Button, Card, Container, Group, Image, Text, TextInput } from "@mantine/core";
+import { Badge, Button, Card, Container, Group, Image, Loader, Text, TextInput } from "@mantine/core";
 import { useForm, UseFormReturnType } from '@mantine/form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getVampire, updateVampire, Vampire, VampireInsert } from "../api/vampires.type";
+import { useGetVampire, useUpdateVampire, Vampire, VampireInsert } from "../api/vampires.type";
 import bloodIcon from '../images/blood-svgrepo-com.svg';
 import healthIcon from '../images/health-cross-svgrepo-com.svg';
 
@@ -12,33 +12,28 @@ interface FormValues {
 
 const UpdateVampire = () => {
     const { id } = useParams()
-    const [vampire, setVampire] = useState<Vampire | null>(null)
+    const vampireId = parseInt(id!)  // react router wouldn't render this page if id was undefined
 
-    useEffect(() => {
-        const fetchVampire = async () => {
-            if (id) {
-                const { data, error } = await getVampire(parseInt(id))
-                if (error) {
+    const { data: vampire, isLoading, error } = useGetVampire(vampireId)
 
-                }
-                if (data) {
-                    setVampire(data)
-                }
-            }
-        }
-
-        fetchVampire()
-    }, [id])
-
-    if (!vampire || !id) {
+    if (isLoading) {
         return (
-            <div></div>
+            <Container size="xs" px="xs">
+                <Loader></Loader>
+            </Container>
+        )
+    }
+    if (error) {
+        return (
+            <Container size="xs" px="xs">
+                <Text>{JSON.stringify(error)}</Text>
+            </Container>
         )
     }
 
     return (
         <Container size="xs" px="xs">
-            <UpdateForm vampire={vampire} />
+            <UpdateForm vampire={vampire!} />
         </Container>
     )
 }
@@ -56,25 +51,23 @@ const UpdateForm = ({ vampire: existingVampire }: { vampire: Vampire }) => {
         },
     });
 
+    const updateVampireMutation = useUpdateVampire(
+        () => { setSubmitState(`Successfully updated ${existingVampire.name} -> ${form.values.name}`) },
+        (error) => { setSubmitState(`Oh no an error :( ${JSON.stringify(error)}`) }
+    )
+
     const submitUpdateVampire = async (form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>, existingVampire: Vampire) => {
         const vampire: VampireInsert = {
             ...existingVampire,
             name: form.values.name,
         }
 
-        const { error } = await updateVampire(vampire)
-
-        if (error) {
-            setSubmitState(`Oh no an error :( ${JSON.stringify(error)}`)
-        }
-        else {
-            setSubmitState(`Successfully updated ${existingVampire.name} -> ${form.values.name}`)
-        }
+        updateVampireMutation.mutate(vampire)
     }
 
     return (
         <div>
-            <h1>{submitState}</h1>
+            {updateVampireMutation.isLoading ? <Loader /> : <h1>{submitState}</h1>}
             <form onSubmit={form.onSubmit((_values) => submitUpdateVampire(form, existingVampire))}>
                 <Card shadow="sm" p="lg" radius="md" withBorder>
                     <Card.Section>

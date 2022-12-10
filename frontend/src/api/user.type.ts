@@ -5,7 +5,7 @@ import supabase from "../utils/supabase"
 
 export type SessionResponse = { data: { session: Session } | { session: null }, error: AuthError | null }
 
-export const getSession = async (): Promise<Session> => {
+const getSession = async (): Promise<Session> => {
     const { data, error } = await supabase.auth.getSession()
 
     if (error) throw error
@@ -31,7 +31,7 @@ export const useCurrentUser = () => {
     return useQuery('user', () => getCurrentUser())
 }
 
-export const signUpWithEmail = async (email: string, password: string) => {
+const signUpWithEmail = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signUp({
         email, password,
     })
@@ -45,8 +45,7 @@ export const useSignUpWithEmail = (email: string, password: string) => {
     return useMutation(() => signUpWithEmail(email, password))
 }
 
-
-export const signInWithGithub = async () => {
+const signInWithGithub = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
     })

@@ -9,9 +9,12 @@ export async function getClans() {
 export async function getMyClan() {
     const user = await getCurrentUser()
 
-    return await supabase.from('clans').select().eq('user_id', user.id)
-}
+    const { data, error } = await supabase.from('clans').select().eq('user_id', user.id).single()
 
+    if (error) throw error
+
+    return data
+}
 
 type ClansResponse = Awaited<ReturnType<typeof getClans>>
 export type ClansResponseSuccess = ClansResponse['data']

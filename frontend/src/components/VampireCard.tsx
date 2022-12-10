@@ -35,7 +35,7 @@ const VampireCard = ({ vampire }: { vampire: Vampire }) => {
                 <img alt="blood" src={bloodIcon} width="20" /> {vampire?.current_blood} / {vampire?.max_blood}
             </Text>
 
-            <Button variant="light" color="blue" fullWidth mt="md" radius="md" onClick={() => { navigate(`/vampires/${vampire.id}`) }}>
+            <Button variant="light" color="grape" fullWidth mt="md" radius="md" onClick={() => { navigate(`/vampires/${vampire.id}`) }}>
                 Edit
             </Button>
         </Card>

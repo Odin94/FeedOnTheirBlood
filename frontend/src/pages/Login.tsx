@@ -3,7 +3,7 @@ import { Button, Loader, Text } from "@mantine/core";
 
 import { Box, Group, TextInput } from '@mantine/core';
 import { useForm } from "@mantine/form";
-import { signInWithGithub, useSession, useSignInWithEmail, useSignOut } from "../api/user.type";
+import { useSession, useSignInWithEmail, useSignInWithGithub, useSignOut } from "../api/user.type";
 
 interface FormValues {
     email: string,
@@ -26,6 +26,7 @@ const Login = () => {
     });
 
     const signInWithEmailMutation = useSignInWithEmail(form.values.email, form.values.password)
+    const signInWithGithubMutation = useSignInWithGithub()
     const signOutMutation = useSignOut()
 
     if (sessionIsLoading) {
@@ -57,7 +58,7 @@ const Login = () => {
                 ? <div>
                     <Text>You are already logged in</Text>
                     <Group position="right" mt="md">
-                        <Button onClick={() => signOutMutation.mutate()} type="submit">Logout</Button>
+                        <Button color="grape" onClick={() => signOutMutation.mutate()} type="submit">Logout</Button>
                     </Group>
                 </div>
                 : <div>
@@ -79,19 +80,19 @@ const Login = () => {
                         />
 
                         <Group position="right" mt="md">
-                            <Button type="submit">Login</Button>
+                            <Button color="grape" type="submit">Login</Button>
                         </Group>
                     </form>
 
                     <hr />
 
-                    <Button color="gray" onClick={signInWithGithub}>
+                    <Button color="gray" onClick={() => signInWithGithubMutation.mutate()}>
                         SignIn with Github
                     </Button>
                     {(signInWithEmailMutation.isLoading || signOutMutation.isLoading) ? <Loader /> : null}
                 </div>
             }
-        </Box>
+        </Box >
     );
 }
 
