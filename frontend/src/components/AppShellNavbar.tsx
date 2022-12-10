@@ -1,15 +1,21 @@
 import { Navbar, Text } from "@mantine/core"
 import { Link } from "react-router-dom"
+import { useSession } from "../api/user.type"
 
 const AppShellNavbar = () => {
+    const { data: session } = useSession()
 
     return (
         <Navbar width={{ base: 300 }} p="xs" >
             {
                 < div style={{ display: "flex", flexDirection: "column" }}>
-                    <Text component={Link} variant="link" to="/signup">
-                        Signup
-                    </Text>
+                    {!session
+                        ? <Text component={Link} variant="link" to="/signup">
+                            Signup
+                        </Text>
+                        : null
+                    }
+
                     <Text component={Link} variant="link" to="/login">
                         Login
                     </Text>
