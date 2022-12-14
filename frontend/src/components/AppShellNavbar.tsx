@@ -71,7 +71,7 @@ const AppShellNavbar = () => {
                 }
             </Navbar.Section>
             <Navbar.Section grow mt="md">
-                <Stack>
+                <Stack align="flex-start" style={{ marginLeft: "25px" }}>
                     {
                         clan
                             ? <>

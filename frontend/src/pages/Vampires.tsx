@@ -12,17 +12,13 @@ const VampiresPage = () => {
             {isLoading ? <Loader color="grape" /> : null}
             {error ? (<Text color="red">{(error as Error).message}</Text>) : null}
             {vampires ? (
-                <div className="vampires">
-                    <div className="vampire-grid">
-                        <Grid>
-                            {vampires.map((vampire) => (
-                                <Grid.Col key={vampire.id} span={6}>
-                                    <VampireCard vampire={vampire} />
-                                </Grid.Col>
-                            ))}
-                        </Grid>
-                    </div>
-                </div>
+                <Grid>
+                    {vampires.map((vampire) => (
+                        <Grid.Col key={vampire.id} span={6}>
+                            <VampireCard vampire={vampire} />
+                        </Grid.Col>
+                    ))}
+                </Grid>
             ) : null}
         </>
     );
