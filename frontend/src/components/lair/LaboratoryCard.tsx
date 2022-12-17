@@ -1,26 +1,28 @@
-import { Badge, Card, Divider, Grid, Group, Image, Stack, Text } from "@mantine/core"
-import AttributeRow from "./AttributeRow"
+import { Badge, Button, Card, Divider, Grid, Group, Image, Loader, Stack, Text } from "@mantine/core"
+import { useContext } from "react"
+import { LairContext } from "../../pages/MyLair"
 
 const LaboratoryCard = () => {
-    const laboratoty = {
-        name: "Laboratoty",
-        imageSrc: "https://images.unsplash.com/photo-1551726275-c4495b31dbdc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-        equipment: 0,
-        workerSlots: 0,
+    const lairContext = useContext(LairContext)
+    if (!lairContext) {
+        return (
+            <Loader color="grape" />
+        )
     }
+    const { lair, mutateLair: mutateHeadquarter, buttonsDisabled } = lairContext
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
                 <Image
-                    src={laboratoty.imageSrc}
+                    src={lair.laboratory_imageSrc}
                     height={270}
                     alt="Lair"
                 />
             </Card.Section>
 
             <Group position="apart" mt="md" mb="xs">
-                <Text weight={500}>{laboratoty.name}</Text>
+                <Text weight={500}>Laboratory</Text>
                 <Badge color="pink" variant="light">
                     Lvl: 5
                 </Badge>
@@ -34,8 +36,19 @@ const LaboratoryCard = () => {
 
             <Stack>
                 <Grid>
-                    <AttributeRow element={laboratoty} attributeName={"equipment"} buttonDisabled={false} />
-                    <AttributeRow element={laboratoty} attributeName={"workerSlots"} buttonDisabled={false} />
+                    <Grid.Col span={9}><Text>Equipment: {lair.laboratory_equipment}</Text></Grid.Col>
+                    <Grid.Col span={3}>
+                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => mutateHeadquarter.mutate({ ...lair, laboratory_equipment: lair.laboratory_equipment + 1 })} disabled={buttonsDisabled}>
+                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
+                        </Button>
+                    </Grid.Col>
+
+                    <Grid.Col span={9}><Text>Worker Slots: {lair.laboratory_worker_slots}</Text></Grid.Col>
+                    <Grid.Col span={3}>
+                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => mutateHeadquarter.mutate({ ...lair, laboratory_worker_slots: lair.laboratory_worker_slots + 1 })} disabled={buttonsDisabled}>
+                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
+                        </Button>
+                    </Grid.Col>
                 </Grid>
             </Stack>
         </Card>

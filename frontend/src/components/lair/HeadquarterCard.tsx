@@ -1,7 +1,6 @@
-import { Badge, Card, Divider, Grid, Group, Image, Loader, Stack, Text } from "@mantine/core"
+import { Badge, Button, Card, Divider, Grid, Group, Image, Loader, Stack, Text } from "@mantine/core"
 import { useContext } from "react"
 import { LairContext } from "../../pages/MyLair"
-import AttributeRow from "./AttributeRow"
 
 const HeadquarterCard = () => {
     const lairContext = useContext(LairContext)
@@ -10,15 +9,13 @@ const HeadquarterCard = () => {
             <Loader color="grape" />
         )
     }
-    const { lair, mutateHeadquarter, buttonsDisabled } = lairContext
-
-    console.log({ lairContext })
+    const { lair, mutateLair: mutateHeadquarter, buttonsDisabled } = lairContext
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
                 <Image
-                    src={lair.imageSrc}
+                    src={lair.headquarter_imageSrc}
                     height={270}
                     alt="Lair"
                 />
@@ -39,9 +36,26 @@ const HeadquarterCard = () => {
 
             <Stack>
                 <Grid>
-                    <AttributeRow element={lair} attributeName={"headquarter_defense"} buttonDisabled={buttonsDisabled} onClick={() => mutateHeadquarter.mutate({ ...lair, headquarter_defense: lair.headquarter_defense + 1 })} />
-                    <AttributeRow element={lair} attributeName={"headquarter_luxury"} buttonDisabled={buttonsDisabled} onClick={() => mutateHeadquarter.mutate({ ...lair, headquarter_luxury: lair.headquarter_luxury + 1 })} />
-                    <AttributeRow element={lair} attributeName={"headquarter_hidden"} buttonDisabled={buttonsDisabled} onClick={() => mutateHeadquarter.mutate({ ...lair, headquarter_hidden: lair.headquarter_hidden + 1 })} />
+                    <Grid.Col span={9}><Text>Defense: {lair.headquarter_defense}</Text></Grid.Col>
+                    <Grid.Col span={3}>
+                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => mutateHeadquarter.mutate({ ...lair, headquarter_defense: lair.headquarter_defense + 1 })} disabled={buttonsDisabled}>
+                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
+                        </Button>
+                    </Grid.Col>
+
+                    <Grid.Col span={9}><Text>Luxury: {lair.headquarter_luxury}</Text></Grid.Col>
+                    <Grid.Col span={3}>
+                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => mutateHeadquarter.mutate({ ...lair, headquarter_luxury: lair.headquarter_luxury + 1 })} disabled={buttonsDisabled}>
+                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
+                        </Button>
+                    </Grid.Col>
+
+                    <Grid.Col span={9}><Text>Hidden: {lair.headquarter_hidden}</Text></Grid.Col>
+                    <Grid.Col span={3}>
+                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => mutateHeadquarter.mutate({ ...lair, headquarter_hidden: lair.headquarter_hidden + 1 })} disabled={buttonsDisabled}>
+                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
+                        </Button>
+                    </Grid.Col>
                 </Grid>
             </Stack>
         </Card>

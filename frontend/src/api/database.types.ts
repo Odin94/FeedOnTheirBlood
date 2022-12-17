@@ -52,7 +52,7 @@ export interface Database {
           headquarter_luxury: number
           headquarter_hidden: number
           clan_id: number
-          imageSrc: string | null
+          headquarter_imageSrc: string
           armory_weapons: number
           armory_armor: number
           domain_control: number
@@ -62,6 +62,10 @@ export interface Database {
           notoriety_mask: number
           notoriety_data_access: number
           notoriety_political_influence: number
+          armory_imageSrc: string
+          domain_imageSrc: string
+          laboratory_imageSrc: string
+          notoriety_imageSrc: string
         }
         Insert: {
           id?: number
@@ -70,7 +74,7 @@ export interface Database {
           headquarter_luxury?: number
           headquarter_hidden?: number
           clan_id: number
-          imageSrc?: string | null
+          headquarter_imageSrc?: string
           armory_weapons?: number
           armory_armor?: number
           domain_control?: number
@@ -80,6 +84,10 @@ export interface Database {
           notoriety_mask?: number
           notoriety_data_access?: number
           notoriety_political_influence?: number
+          armory_imageSrc?: string
+          domain_imageSrc?: string
+          laboratory_imageSrc?: string
+          notoriety_imageSrc?: string
         }
         Update: {
           id?: number
@@ -88,7 +96,7 @@ export interface Database {
           headquarter_luxury?: number
           headquarter_hidden?: number
           clan_id?: number
-          imageSrc?: string | null
+          headquarter_imageSrc?: string
           armory_weapons?: number
           armory_armor?: number
           domain_control?: number
@@ -98,6 +106,10 @@ export interface Database {
           notoriety_mask?: number
           notoriety_data_access?: number
           notoriety_political_influence?: number
+          armory_imageSrc?: string
+          domain_imageSrc?: string
+          laboratory_imageSrc?: string
+          notoriety_imageSrc?: string
         }
       }
       vampires: {

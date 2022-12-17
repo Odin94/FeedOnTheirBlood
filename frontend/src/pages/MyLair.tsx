@@ -34,14 +34,14 @@ const MyLair = () => {
 export type LairContextType = {
     buttonsDisabled: boolean,
     lair: Lair,
-    mutateHeadquarter: any,
+    mutateLair: any,
 }
 export const LairContext = createContext<LairContextType | null>(null);
 
 const LairWithLoadedClan = ({ clanId }: { clanId: number }) => {
     const [buttonsDisabled, setButtonsDisabled] = useState(false)
     const { data: lair, isLoading, error } = useLair(clanId)
-    const mutateHeadquarter = useUpdateLair({
+    const mutateLair = useUpdateLair({
         onMutate: () => { setButtonsDisabled(true) },
         onSettled: () => { setButtonsDisabled(false) }
     })
@@ -62,7 +62,7 @@ const LairWithLoadedClan = ({ clanId }: { clanId: number }) => {
     }
 
     return (
-        <LairContext.Provider value={{ buttonsDisabled, mutateHeadquarter, lair }}>
+        <LairContext.Provider value={{ buttonsDisabled, mutateLair, lair }}>
             <Grid>
                 <Grid.Col span={4}>
                     <HeadquarterCard />
@@ -81,7 +81,6 @@ const LairWithLoadedClan = ({ clanId }: { clanId: number }) => {
                 </Grid.Col>
             </Grid >
         </LairContext.Provider>
-
     )
 }
 
