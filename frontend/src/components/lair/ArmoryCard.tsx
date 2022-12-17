@@ -1,7 +1,7 @@
 import { Badge, Card, Divider, Grid, Group, Image, Stack, Text } from "@mantine/core"
 import AttributeRow from "./AttributeRow"
 
-const ArmoryCard = ({ clanId }: { clanId: number }) => {
+const ArmoryCard = () => {
     const armory = {
         name: "Armory",
         imageSrc: "https://images.unsplash.com/photo-1586736937926-062c138b088b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80",

@@ -3,50 +3,50 @@ import supabase from "../utils/supabase";
 import { Database } from "./database.types";
 import { MutationFunctions } from "./types";
 
-export async function getHeadquarter(clanId: number) {
-    const { data, error } = await supabase.from('headquarters').select().eq("clan_id", clanId).single()
+export async function getLair(clanId: number) {
+    const { data, error } = await supabase.from('lairs').select().eq("clan_id", clanId).single()
 
     if (error) throw error
     return data
 }
 
-export const useHeadquarter = (clanId: number) => {
-    return useQuery('headquarters', () => getHeadquarter(clanId))
+export const useLair = (clanId: number) => {
+    return useQuery('lairs', () => getLair(clanId))
 }
 
-async function insertHeadquarter(headquarter: HeadquarterInsert) {
-    const { error } = await supabase.from('headquarters').insert([{ ...headquarter }])
+async function insertLair(headquarter: LairInsert) {
+    const { error } = await supabase.from('lairs').insert([{ ...headquarter }])
     return { error }
 }
-export const useInsertHeadquarter = (onSuccess?: () => void, onError?: (error: unknown) => void) => {
-    return useMutation((headquarter: HeadquarterInsert) => insertHeadquarter(headquarter), { onSuccess, onError })
+export const useInsertLair = (onSuccess?: () => void, onError?: (error: unknown) => void) => {
+    return useMutation((headquarter: LairInsert) => insertLair(headquarter), { onSuccess, onError })
 }
 
-async function updateHeadquarter(headquarter: HeadquarterInsert) {
-    const { error } = await supabase.from('headquarters').update(headquarter).eq('id', headquarter.id)
+async function updateLair(headquarter: LairInsert) {
+    const { error } = await supabase.from('lairs').update(headquarter).eq('id', headquarter.id)
     if (error) throw error
 }
-export const useUpdateHeadquarter = (options?: MutationFunctions) => {
+export const useUpdateLair = (options?: MutationFunctions) => {
     const queryClient = useQueryClient()
 
-    return useMutation((headquarter: HeadquarterInsert) => updateHeadquarter(headquarter),
+    return useMutation((headquarter: LairInsert) => updateLair(headquarter),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('headquarters')
+                queryClient.invalidateQueries('lairs')
                 if (options?.onSuccess) options.onSuccess()
             }, ...options
         }
     )
 }
 
-async function getHeadquartersForType() {
-    return await supabase.from('headquarters').select()
+async function getLairsForType() {
+    return await supabase.from('lairs').select()
 }
-type HeadquartersResponse = Awaited<ReturnType<typeof getHeadquartersForType>>
-export type HeadquartersResponseSuccess = HeadquartersResponse['data']
-export type HeadquartersResponseError = HeadquartersResponse['error']
+type LairsResponse = Awaited<ReturnType<typeof getLairsForType>>
+export type LairsResponseSuccess = LairsResponse['data']
+export type LairsResponseError = LairsResponse['error']
 
-export type HeadquarterInsert = Database['public']['Tables']['headquarters']['Insert']
+export type LairInsert = Database['public']['Tables']['lairs']['Insert']
 
-export type Headquarters = HeadquartersResponse['data']
-export type Headquarter = Exclude<HeadquartersResponse['data'], null>[number]
+export type Lairs = LairsResponse['data']
+export type Lair = Exclude<LairsResponse['data'], null>[number]

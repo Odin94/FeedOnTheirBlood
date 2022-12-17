@@ -44,33 +44,60 @@ export interface Database {
           user_id?: string | null
         }
       }
-      headquarters: {
+      lairs: {
         Row: {
           id: number
           created_at: string | null
-          defense: number
-          luxury: number
-          hidden: number
+          headquarter_defense: number
+          headquarter_luxury: number
+          headquarter_hidden: number
           clan_id: number
           imageSrc: string | null
+          armory_weapons: number
+          armory_armor: number
+          domain_control: number
+          domain_herd: number
+          laboratory_equipment: number
+          laboratory_worker_slots: number
+          notoriety_mask: number
+          notoriety_data_access: number
+          notoriety_political_influence: number
         }
         Insert: {
           id?: number
           created_at?: string | null
-          defense?: number
-          luxury?: number
-          hidden?: number
+          headquarter_defense?: number
+          headquarter_luxury?: number
+          headquarter_hidden?: number
           clan_id: number
           imageSrc?: string | null
+          armory_weapons?: number
+          armory_armor?: number
+          domain_control?: number
+          domain_herd?: number
+          laboratory_equipment?: number
+          laboratory_worker_slots?: number
+          notoriety_mask?: number
+          notoriety_data_access?: number
+          notoriety_political_influence?: number
         }
         Update: {
           id?: number
           created_at?: string | null
-          defense?: number
-          luxury?: number
-          hidden?: number
+          headquarter_defense?: number
+          headquarter_luxury?: number
+          headquarter_hidden?: number
           clan_id?: number
           imageSrc?: string | null
+          armory_weapons?: number
+          armory_armor?: number
+          domain_control?: number
+          domain_herd?: number
+          laboratory_equipment?: number
+          laboratory_worker_slots?: number
+          notoriety_mask?: number
+          notoriety_data_access?: number
+          notoriety_political_influence?: number
         }
       }
       vampires: {
