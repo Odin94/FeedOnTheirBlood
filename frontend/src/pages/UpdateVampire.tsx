@@ -51,10 +51,10 @@ const UpdateForm = ({ vampire: existingVampire }: { vampire: Vampire }) => {
         },
     });
 
-    const updateVampireMutation = useUpdateVampire(
-        () => { setSubmitState(`Successfully updated ${existingVampire.name} -> ${form.values.name}`) },
-        (error) => { setSubmitState(`Oh no an error :( ${JSON.stringify(error)}`) }
-    )
+    const updateVampireMutation = useUpdateVampire({
+        onSuccess: () => { setSubmitState(`Successfully updated ${existingVampire.name} -> ${form.values.name}`) },
+        onError: (error) => { setSubmitState(`Oh no an error :( ${JSON.stringify(error)}`) }
+    })
 
     const submitUpdateVampire = async (form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>, existingVampire: Vampire) => {
         const vampire: VampireInsert = {

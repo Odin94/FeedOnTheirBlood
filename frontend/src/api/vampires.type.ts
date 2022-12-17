@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from 'react-query'
 import supabase from '../utils/supabase'
 import { Database } from './database.types'
+import { MutationFunctions } from './types'
 import { getCurrentUser } from './user.type'
 
 const getVampires = async (): Promise<Vampires> => {
@@ -52,8 +53,8 @@ async function updateVampire(vampire: VampireInsert) {
     if (error) throw error
 }
 
-export const useUpdateVampire = (onSuccess?: () => void, onError?: (error: unknown) => void) => {
-    return useMutation((vampire: VampireInsert) => updateVampire(vampire), { onSuccess, onError })
+export const useUpdateVampire = (options?: MutationFunctions) => {
+    return useMutation((vampire: VampireInsert) => updateVampire(vampire), options)
 }
 
 async function getVampiresForType() {

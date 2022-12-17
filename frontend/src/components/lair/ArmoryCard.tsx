@@ -1,27 +1,26 @@
 import { Badge, Card, Divider, Grid, Group, Image, Stack, Text } from "@mantine/core"
 import AttributeRow from "./AttributeRow"
 
-const NotorietyCard = () => {
-    const notoriety = {
-        name: "Notoriety",
-        imageSrc: "https://images.unsplash.com/photo-1621264448270-9ef00e88a935?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=714&q=80",
-        mask: 0,
-        dataAccess: 0,
-        politicalInfluence: 0,
+const ArmoryCard = ({ clanId }: { clanId: number }) => {
+    const armory = {
+        name: "Armory",
+        imageSrc: "https://images.unsplash.com/photo-1586736937926-062c138b088b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80",
+        weapons: 0,
+        armor: 0,
     }
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
                 <Image
-                    src={notoriety.imageSrc}
+                    src={armory.imageSrc}
                     height={270}
                     alt="Lair"
                 />
             </Card.Section>
 
             <Group position="apart" mt="md" mb="xs">
-                <Text weight={500}>{notoriety.name}</Text>
+                <Text weight={500}>{armory.name}</Text>
                 <Badge color="pink" variant="light">
                     Lvl: 5
                 </Badge>
@@ -35,13 +34,12 @@ const NotorietyCard = () => {
 
             <Stack>
                 <Grid>
-                    <AttributeRow element={notoriety} attributeName={"mask"} />
-                    <AttributeRow element={notoriety} attributeName={"dataAccess"} />
-                    <AttributeRow element={notoriety} attributeName={"politicalInfluence"} />
+                    <AttributeRow element={armory} attributeName={"weapons"} buttonDisabled={false} />
+                    <AttributeRow element={armory} attributeName={"armor"} buttonDisabled={false} />
                 </Grid>
             </Stack>
         </Card>
     )
 }
 
-export default NotorietyCard
+export default ArmoryCard

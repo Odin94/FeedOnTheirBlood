@@ -1,6 +1,6 @@
-import { Box, Button, Group, SegmentedControl } from "@mantine/core";
+import { Button, Group, SegmentedControl } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import fangsIcon from '../images/fangs-svgrepo-com.svg'
+import fangsIcon from '../images/fangs-svgrepo-com.svg';
 
 interface FormValues {
     time: string

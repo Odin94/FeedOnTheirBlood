@@ -10,5 +10,5 @@
 * Must set app url and public anon key in `frontend/.env`
 * Run docker (for WSL, start Docker for Windows on Windows) & start supabase with `npx supabase start`
 * Link project: `npx supabase link --project-ref jgezxyzuccoxqonyqone`  (project id from url at supabase homepage)
-* Generate types: `npx supabase gen types typescript --linked > src/api/database.types.ts`
+* Generate types: `npx supabase gen types typescript --linked > src/api/database.types.ts` (run from /frontend)
   

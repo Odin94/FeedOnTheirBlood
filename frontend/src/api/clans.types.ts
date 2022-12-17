@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import supabase from "../utils/supabase";
 import { Database } from "./database.types";
 import { getCurrentUser } from "./user.type";
@@ -21,11 +21,19 @@ export const useMyClan = () => {
     return useQuery('clans', () => getMyClan())
 }
 
+async function insertClan(clan: ClanInsert) {
+    const { error } = await supabase.from('clans').insert([{ ...clan }])
+    return { error }
+}
+export const useInsertClan = (onSuccess?: () => void, onError?: (error: unknown) => void) => {
+    return useMutation((clan: ClanInsert) => insertClan(clan), { onSuccess, onError })
+}
+
 type ClansResponse = Awaited<ReturnType<typeof getClans>>
 export type ClansResponseSuccess = ClansResponse['data']
 export type ClansResponseError = ClansResponse['error']
 
-export type VampireInsert = Database['public']['Tables']['clans']['Insert']
+export type ClanInsert = Database['public']['Tables']['clans']['Insert']
 
 export type Clans = ClansResponse['data']
 export type Clan = Exclude<ClansResponse['data'], null>[number]

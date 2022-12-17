@@ -1,26 +1,26 @@
 import { Badge, Card, Divider, Grid, Group, Image, Stack, Text } from "@mantine/core"
 import AttributeRow from "./AttributeRow"
 
-const ArmoryCard = () => {
-    const armory = {
-        name: "Armory",
-        imageSrc: "https://images.unsplash.com/photo-1586736937926-062c138b088b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80",
-        weapons: 0,
-        armor: 0,
+const DomainCard = ({ clanId }: { clanId: number }) => {
+    const domain = {
+        name: "Domain",
+        imageSrc: "https://images.unsplash.com/photo-1561365028-65810a3d4c2a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=626&q=80",
+        control: 0,  // less dangerous to hunt
+        herd: 0,     // more blood per hunt
     }
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
                 <Image
-                    src={armory.imageSrc}
+                    src={domain.imageSrc}
                     height={270}
                     alt="Lair"
                 />
             </Card.Section>
 
             <Group position="apart" mt="md" mb="xs">
-                <Text weight={500}>{armory.name}</Text>
+                <Text weight={500}>{domain.name}</Text>
                 <Badge color="pink" variant="light">
                     Lvl: 5
                 </Badge>
@@ -34,12 +34,12 @@ const ArmoryCard = () => {
 
             <Stack>
                 <Grid>
-                    <AttributeRow element={armory} attributeName={"weapons"} />
-                    <AttributeRow element={armory} attributeName={"armor"} />
+                    <AttributeRow element={domain} attributeName={"control"} buttonDisabled={false} />
+                    <AttributeRow element={domain} attributeName={"herd"} buttonDisabled={false} />
                 </Grid>
             </Stack>
         </Card>
     )
 }
 
-export default ArmoryCard
+export default DomainCard

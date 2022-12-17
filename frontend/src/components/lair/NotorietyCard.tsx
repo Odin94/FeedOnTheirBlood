@@ -1,27 +1,27 @@
 import { Badge, Card, Divider, Grid, Group, Image, Stack, Text } from "@mantine/core"
 import AttributeRow from "./AttributeRow"
 
-const HeadquarterCard = () => {
-    const headquarter = {
-        name: "Headquarter",
-        imageSrc: "https://images.unsplash.com/photo-1530555144580-18acc0ff779b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
-        defense: 0,
-        luxury: 0,
-        hidden: 0,
+const NotorietyCard = ({ clanId }: { clanId: number }) => {
+    const notoriety = {
+        name: "Notoriety",
+        imageSrc: "https://images.unsplash.com/photo-1621264448270-9ef00e88a935?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=714&q=80",
+        mask: 0,
+        dataAccess: 0,
+        politicalInfluence: 0,
     }
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
                 <Image
-                    src={headquarter.imageSrc}
+                    src={notoriety.imageSrc}
                     height={270}
                     alt="Lair"
                 />
             </Card.Section>
 
             <Group position="apart" mt="md" mb="xs">
-                <Text weight={500}>{headquarter.name}</Text>
+                <Text weight={500}>{notoriety.name}</Text>
                 <Badge color="pink" variant="light">
                     Lvl: 5
                 </Badge>
@@ -35,13 +35,13 @@ const HeadquarterCard = () => {
 
             <Stack>
                 <Grid>
-                    <AttributeRow element={headquarter} attributeName={"defense"} />
-                    <AttributeRow element={headquarter} attributeName={"luxury"} />
-                    <AttributeRow element={headquarter} attributeName={"hidden"} />
+                    <AttributeRow element={notoriety} attributeName={"mask"} buttonDisabled={false} />
+                    <AttributeRow element={notoriety} attributeName={"dataAccess"} buttonDisabled={false} />
+                    <AttributeRow element={notoriety} attributeName={"politicalInfluence"} buttonDisabled={false} />
                 </Grid>
             </Stack>
         </Card>
     )
 }
 
-export default HeadquarterCard
+export default NotorietyCard

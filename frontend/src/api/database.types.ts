@@ -44,6 +44,35 @@ export interface Database {
           user_id?: string | null
         }
       }
+      headquarters: {
+        Row: {
+          id: number
+          created_at: string | null
+          defense: number
+          luxury: number
+          hidden: number
+          clan_id: number
+          imageSrc: string | null
+        }
+        Insert: {
+          id?: number
+          created_at?: string | null
+          defense?: number
+          luxury?: number
+          hidden?: number
+          clan_id: number
+          imageSrc?: string | null
+        }
+        Update: {
+          id?: number
+          created_at?: string | null
+          defense?: number
+          luxury?: number
+          hidden?: number
+          clan_id?: number
+          imageSrc?: string | null
+        }
+      }
       vampires: {
         Row: {
           id: number
