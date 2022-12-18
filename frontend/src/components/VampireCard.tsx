@@ -3,11 +3,11 @@ import { useForm } from '@mantine/form';
 import dayjs from 'dayjs';
 import duration from "dayjs/plugin/duration";
 import utc from "dayjs/plugin/utc";
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { clansKey, useUpdateClan } from '../api/clans.types';
-import { useUpdateVampire, Vampire } from "../api/vampires.type";
+import { useUpdateVampire, Vampire, vampiresKey } from "../api/vampires.type";
 import { ClanContext } from '../App';
 import bloodIcon from '../images/blood-svgrepo-com.svg';
 import fangsIcon from '../images/fangs-svgrepo-com.svg';
@@ -62,6 +62,7 @@ const VampireCard = ({ vampire }: { vampire: Vampire }) => {
 const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
     const queryClient = useQueryClient()
     const [remainingTime, setRemainingTime] = useState<string>("00:00:00")
+    const [claimingRewards, setClaimingRewards] = useState(false)
     const vampireMutation = useUpdateVampire()
     const clanMutation = useUpdateClan()
 
@@ -127,6 +128,8 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
     }
 
     const claimRewards = () => {
+        setClaimingRewards(true)
+
         const rewardMap: Record<string, number> = {
             "10": 500,
             "30": 1000,
@@ -147,11 +150,11 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
             ...clan,
             money: clan.money + reward,
             blood: clan.blood + reward
-        }, { onSuccess: () => queryClient.invalidateQueries(clansKey) })
+        }, { onSuccess: () => { queryClient.invalidateQueries(clansKey); queryClient.invalidateQueries(vampiresKey); setClaimingRewards(false); } })
     }
 
     if (isVampireDoneHunting(vampire)) return (
-        <Button variant="light" color="grape" fullWidth mt="md" radius="md" onClick={claimRewards}
+        <Button variant="light" color="grape" fullWidth mt="md" radius="md" onClick={claimRewards} disabled={claimingRewards}
             leftIcon={<img alt="fangs" src={fangsIcon} width="20" style={{ filter: "invert(96%) sepia(4%) saturate(1720%) hue-rotate(217deg) brightness(111%) contrast(100%)" }} />}>
             Claim Rewards
         </Button>

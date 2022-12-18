@@ -5,7 +5,7 @@ import { Database } from './database.types'
 import { MutationFunctions } from './types'
 import { getCurrentUser } from './user.type'
 
-const vampiresKey = 'vampires'
+export const vampiresKey = 'vampires'
 
 const getVampires = async (): Promise<Vampires> => {
     const { data, error } = await supabase.from('vampires').select()
@@ -74,8 +74,6 @@ export const useTurnNewVampire = (options?: MutationFunctions) => {
 }
 
 async function updateVampire(vampire: VampireInsert) {
-    console.log({ vampire })
-
     const { error } = await supabase.from('vampires').update(vampire).eq('id', vampire.id)
     if (error) throw error
 }
