@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 import supabase from "../utils/supabase";
 import { Database } from "./database.types";
+import { MutationFunctions } from "./types";
 import { getCurrentUser } from "./user.type";
 
 export const clansKey = 'clans'
@@ -34,6 +35,9 @@ export const useInsertClan = (onSuccess?: () => void, onError?: (error: unknown)
 export const updateClan = async (clan: ClanInsert) => {
     const { error } = await supabase.from('clans').update(clan).eq('id', clan.id)
     if (error) throw error
+}
+export const useUpdateClan = (options?: MutationFunctions) => {
+    return useMutation((clan: ClanInsert) => updateClan(clan), options)
 }
 
 type ClansResponse = Awaited<ReturnType<typeof getClans>>

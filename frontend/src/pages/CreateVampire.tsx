@@ -21,10 +21,10 @@ const CreateVampire = () => {
             name: (value: string) => (value.length > 0 && value.length < 100 ? null : 'Invalid name'),
         },
     });
-    const insertVampireMutation = useInsertVampire(
-        () => { setSubmitState(`Successfully created ${form.values.name}`); form.reset() },
-        (error) => { setSubmitState(`Oh no an error :( ${JSON.stringify(error)}`) }
-    )
+    const insertVampireMutation = useInsertVampire({
+        onSuccess: () => { setSubmitState(`Successfully created ${form.values.name}`); form.reset() },
+        onError: (error) => { setSubmitState(`Oh no an error :( ${JSON.stringify(error)}`) }
+    })
 
     const submitCreateVampire = async (form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>) => {
         const clan = await getMyClan()

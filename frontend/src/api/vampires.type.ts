@@ -20,7 +20,10 @@ const getMyVampires = async (): Promise<Vampires> => {
     const { data, error } = await supabase.from('vampires').select('*, clans!inner(*)').eq('clans.user_id', user.id)
 
     if (error) throw error
-    return data
+
+    // TODO: Fix query to not include 'clans' in output in the first place
+    data.forEach((data) => delete (data as any).clans)
+    return data.sort((a, b) => a.id - b.id)
 }
 
 export const useGetMyVampires = () => {
@@ -32,7 +35,6 @@ async function getVampire(id: number) {
     const { data, error } = await supabase.from('vampires').select().eq('id', id).single()
 
     if (error) throw error
-
     return data
 }
 
@@ -44,11 +46,13 @@ async function insertVampire(vampire: VampireInsert) {
     const { error } = await supabase.from('vampires').insert([{ ...vampire }])
     return { error }
 }
-export const useInsertVampire = (onSuccess?: () => void, onError?: (error: unknown) => void) => {
-    return useMutation((vampire: VampireInsert) => insertVampire(vampire), { onSuccess, onError })
+export const useInsertVampire = (options?: MutationFunctions) => {
+    return useMutation((vampire: VampireInsert) => insertVampire(vampire), options)
 }
 
 async function updateVampire(vampire: VampireInsert) {
+    console.log({ vampire })
+
     const { error } = await supabase.from('vampires').update(vampire).eq('id', vampire.id)
     if (error) throw error
 }

@@ -122,6 +122,8 @@ export interface Database {
           max_health: number | null
           current_health: number | null
           clan_id: number | null
+          current_action: string | null
+          busy_until_utc: string | null
         }
         Insert: {
           id?: number
@@ -132,6 +134,8 @@ export interface Database {
           max_health?: number | null
           current_health?: number | null
           clan_id?: number | null
+          current_action?: string | null
+          busy_until_utc?: string | null
         }
         Update: {
           id?: number
@@ -142,6 +146,8 @@ export interface Database {
           max_health?: number | null
           current_health?: number | null
           clan_id?: number | null
+          current_action?: string | null
+          busy_until_utc?: string | null
         }
       }
     }

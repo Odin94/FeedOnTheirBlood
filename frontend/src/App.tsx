@@ -13,6 +13,8 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import UpdateVampire from "./pages/UpdateVampire";
 import Vampires from "./pages/Vampires";
+import { Clan, useMyClan } from "./api/clans.types";
+import { createContext } from "react";
 
 
 const queryClient = new QueryClient({
@@ -23,11 +25,27 @@ const queryClient = new QueryClient({
   }
 })
 
+export type ClanContextType = {
+  clan?: Clan
+}
+export const ClanContext = createContext<ClanContextType | null>(null);
+
+
 const App = () => {
+
   return (
     <QueryClientProvider client={queryClient}>
+      <AppAfterQueryProvider />
+    </QueryClientProvider>
+  )
+}
 
-      <BrowserRouter>
+const AppAfterQueryProvider = () => {
+  const { data: clan } = useMyClan()
+
+  return (
+    <BrowserRouter>
+      <ClanContext.Provider value={{ clan }}>
         <AppShell
           navbar={<AppShellNavbar />}
           styles={(theme) => ({
@@ -46,8 +64,8 @@ const App = () => {
             </Routes>
           </Inner>
         </AppShell>
-      </BrowserRouter>
-    </QueryClientProvider>
+      </ClanContext.Provider>
+    </BrowserRouter>
   )
 }
 

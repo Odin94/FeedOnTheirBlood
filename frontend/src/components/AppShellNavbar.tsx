@@ -1,14 +1,15 @@
-import { Box, Center, Navbar, Stack, Text } from "@mantine/core"
-import { Link } from "react-router-dom"
-import { useMyClan } from "../api/clans.types";
-import { useSession, useSignOut } from "../api/user.type"
+import { Box, Center, Navbar, Stack, Text } from "@mantine/core";
+import { Link } from "react-router-dom";
+import { useSession, useSignOut } from "../api/user.type";
 
+import { useContext } from "react";
+import { ClanContext } from "../App";
+import bloodIcon from '../images/blood-svgrepo-com.svg';
+import coinIcon from '../images/coin-svgrepo-com.svg';
+import crownIcon from '../images/crown-svgrepo-com.svg';
 import moonIcon from '../images/full-moon-halloween-svgrepo-com.svg';
 import knifeIcon from '../images/knife-svgrepo-com.svg';
-import bloodIcon from '../images/blood-svgrepo-com.svg'
-import coinIcon from '../images/coin-svgrepo-com.svg'
-import crownIcon from '../images/crown-svgrepo-com.svg'
-import policeIcon from '../images/police-badge-svgrepo-com.svg'
+import policeIcon from '../images/police-badge-svgrepo-com.svg';
 
 
 /* filter property for coloring svgs: https://codepen.io/sosuke/pen/Pjoqqp */
@@ -16,8 +17,9 @@ const oliveSvgFilter = "invert(96%) sepia(4%) saturate(1720%) hue-rotate(217deg)
 
 const AppShellNavbar = () => {
     const { data: session } = useSession()
-    const { data: clan } = useMyClan()
     const signOutMutation = useSignOut()
+    const clanContext = useContext(ClanContext)
+    const clan = clanContext?.clan
 
     return (
         <Navbar width={{ base: 300 }} p="xs" >

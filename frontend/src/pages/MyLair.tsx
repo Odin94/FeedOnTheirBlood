@@ -1,36 +1,14 @@
 import { Container, Grid, Loader, Text } from "@mantine/core"
-import { createContext, useState } from "react"
+import { createContext, useContext, useState } from "react"
 import { useQueryClient } from "react-query"
-import { Clan, clansKey, useMyClan } from "../api/clans.types"
+import { Clan, clansKey } from "../api/clans.types"
 import { Lair, useLair, useUpgradeLair } from "../api/lair.types"
+import { ClanContext } from "../App"
 import ArmoryCard from "../components/lair/ArmoryCard"
 import DomainCard from "../components/lair/DomainCard"
 import HeadquarterCard from "../components/lair/HeadquarterCard"
 import LaboratoryCard from "../components/lair/LaboratoryCard"
 import NotorietyCard from "../components/lair/NotorietyCard"
-
-const MyLair = () => {
-    const { data: clan, isLoading, error } = useMyClan()
-
-    if (isLoading) {
-        return (
-            <Container size="xs" px="xs">
-                <Loader color="grape" />
-            </Container>
-        )
-    }
-    if (error || !clan) {
-        return (
-            <Container size="xs" px="xs" color="red">
-                <Text>{(error as Error)?.message}</Text>
-            </Container>
-        )
-    }
-
-    return (
-        <LairWithLoadedClan clan={clan} />
-    )
-}
 
 export type LairContextType = {
     buttonsDisabled: boolean,
@@ -40,10 +18,14 @@ export type LairContextType = {
 }
 export const LairContext = createContext<LairContextType | null>(null);
 
-const LairWithLoadedClan = ({ clan }: { clan: Clan }) => {
+const MyLair = () => {
     const queryClient = useQueryClient()
     const [buttonsDisabled, setButtonsDisabled] = useState(false)
-    const { data: lair, isLoading, error } = useLair(clan.id)
+
+    const clanContext = useContext(ClanContext)
+    const clan = clanContext?.clan
+
+    const { data: lair, isLoading, error } = useLair(clan!.id)
     const upgradeLairMutation = useUpgradeLair({
         onSuccess: () => { queryClient.invalidateQueries(clansKey) },
         onMutate: () => { setButtonsDisabled(true) },
@@ -57,7 +39,7 @@ const LairWithLoadedClan = ({ clan }: { clan: Clan }) => {
             </Container>
         )
     }
-    if (error || !lair) {
+    if (error || !clan || !lair) {
         return (
             <Container size="xs" px="xs" color="red">
                 <Text>{(error as Error).message}</Text>
