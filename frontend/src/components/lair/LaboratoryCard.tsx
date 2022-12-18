@@ -9,7 +9,7 @@ const LaboratoryCard = () => {
             <Loader color="grape" />
         )
     }
-    const { lair, mutateLair: mutateHeadquarter, buttonsDisabled } = lairContext
+    const { lair, upgradeLairMutation, buttonsDisabled, clan } = lairContext
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
@@ -38,14 +38,14 @@ const LaboratoryCard = () => {
                 <Grid>
                     <Grid.Col span={9}><Text>Equipment: {lair.laboratory_equipment}</Text></Grid.Col>
                     <Grid.Col span={3}>
-                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => mutateHeadquarter.mutate({ ...lair, laboratory_equipment: lair.laboratory_equipment + 1 })} disabled={buttonsDisabled}>
+                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => upgradeLairMutation.mutate({ lair, attribute: "laboratory_equipment", clan })} disabled={buttonsDisabled}>
                             <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
                         </Button>
                     </Grid.Col>
 
                     <Grid.Col span={9}><Text>Worker Slots: {lair.laboratory_worker_slots}</Text></Grid.Col>
                     <Grid.Col span={3}>
-                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => mutateHeadquarter.mutate({ ...lair, laboratory_worker_slots: lair.laboratory_worker_slots + 1 })} disabled={buttonsDisabled}>
+                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => upgradeLairMutation.mutate({ lair, attribute: "laboratory_worker_slots", clan })} disabled={buttonsDisabled}>
                             <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
                         </Button>
                     </Grid.Col>

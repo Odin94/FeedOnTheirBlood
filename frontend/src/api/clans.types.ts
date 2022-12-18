@@ -3,6 +3,8 @@ import supabase from "../utils/supabase";
 import { Database } from "./database.types";
 import { getCurrentUser } from "./user.type";
 
+export const clansKey = 'clans'
+
 export async function getClans() {
     return await supabase.from('clans').select()
 }
@@ -18,7 +20,7 @@ export async function getMyClan() {
 }
 
 export const useMyClan = () => {
-    return useQuery('clans', () => getMyClan())
+    return useQuery(clansKey, () => getMyClan())
 }
 
 async function insertClan(clan: ClanInsert) {
@@ -27,6 +29,11 @@ async function insertClan(clan: ClanInsert) {
 }
 export const useInsertClan = (onSuccess?: () => void, onError?: (error: unknown) => void) => {
     return useMutation((clan: ClanInsert) => insertClan(clan), { onSuccess, onError })
+}
+
+export const updateClan = async (clan: ClanInsert) => {
+    const { error } = await supabase.from('clans').update(clan).eq('id', clan.id)
+    if (error) throw error
 }
 
 type ClansResponse = Awaited<ReturnType<typeof getClans>>

@@ -15,10 +15,10 @@ export interface Database {
           created_at: string | null
           name: string | null
           description: string | null
-          blood: number | null
-          money: number | null
-          notoriety: number | null
-          influence: number | null
+          blood: number
+          money: number
+          notoriety: number
+          influence: number
           user_id: string | null
         }
         Insert: {
@@ -26,10 +26,10 @@ export interface Database {
           created_at?: string | null
           name?: string | null
           description?: string | null
-          blood?: number | null
-          money?: number | null
-          notoriety?: number | null
-          influence?: number | null
+          blood?: number
+          money?: number
+          notoriety?: number
+          influence?: number
           user_id?: string | null
         }
         Update: {
@@ -37,10 +37,10 @@ export interface Database {
           created_at?: string | null
           name?: string | null
           description?: string | null
-          blood?: number | null
-          money?: number | null
-          notoriety?: number | null
-          influence?: number | null
+          blood?: number
+          money?: number
+          notoriety?: number
+          influence?: number
           user_id?: string | null
         }
       }

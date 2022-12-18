@@ -9,7 +9,7 @@ const ArmoryCard = () => {
             <Loader color="grape" />
         )
     }
-    const { lair, mutateLair: mutateHeadquarter, buttonsDisabled } = lairContext
+    const { lair, upgradeLairMutation, buttonsDisabled, clan } = lairContext
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
@@ -38,14 +38,14 @@ const ArmoryCard = () => {
                 <Grid>
                     <Grid.Col span={9}><Text>Weapons: {lair.armory_weapons}</Text></Grid.Col>
                     <Grid.Col span={3}>
-                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => mutateHeadquarter.mutate({ ...lair, armory_weapons: lair.armory_weapons + 1 })} disabled={buttonsDisabled}>
+                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => upgradeLairMutation.mutate({ lair, attribute: "armory_weapons", clan })} disabled={buttonsDisabled}>
                             <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
                         </Button>
                     </Grid.Col>
 
                     <Grid.Col span={9}><Text>Armor: {lair.armory_armor}</Text></Grid.Col>
                     <Grid.Col span={3}>
-                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => mutateHeadquarter.mutate({ ...lair, armory_armor: lair.armory_armor + 1 })} disabled={buttonsDisabled}>
+                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => upgradeLairMutation.mutate({ lair, attribute: "armory_armor", clan })} disabled={buttonsDisabled}>
                             <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
                         </Button>
                     </Grid.Col>

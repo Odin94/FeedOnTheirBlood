@@ -1,7 +1,8 @@
 import { Container, Grid, Loader, Text } from "@mantine/core"
 import { createContext, useState } from "react"
-import { useMyClan } from "../api/clans.types"
-import { Lair, useLair, useUpdateLair } from "../api/lair.types"
+import { useQueryClient } from "react-query"
+import { Clan, clansKey, useMyClan } from "../api/clans.types"
+import { Lair, useLair, useUpgradeLair } from "../api/lair.types"
 import ArmoryCard from "../components/lair/ArmoryCard"
 import DomainCard from "../components/lair/DomainCard"
 import HeadquarterCard from "../components/lair/HeadquarterCard"
@@ -27,21 +28,24 @@ const MyLair = () => {
     }
 
     return (
-        <LairWithLoadedClan clanId={clan.id} />
+        <LairWithLoadedClan clan={clan} />
     )
 }
 
 export type LairContextType = {
     buttonsDisabled: boolean,
     lair: Lair,
-    mutateLair: any,
+    upgradeLairMutation: Awaited<ReturnType<typeof useUpgradeLair>>,
+    clan: Clan
 }
 export const LairContext = createContext<LairContextType | null>(null);
 
-const LairWithLoadedClan = ({ clanId }: { clanId: number }) => {
+const LairWithLoadedClan = ({ clan }: { clan: Clan }) => {
+    const queryClient = useQueryClient()
     const [buttonsDisabled, setButtonsDisabled] = useState(false)
-    const { data: lair, isLoading, error } = useLair(clanId)
-    const mutateLair = useUpdateLair({
+    const { data: lair, isLoading, error } = useLair(clan.id)
+    const upgradeLairMutation = useUpgradeLair({
+        onSuccess: () => { queryClient.invalidateQueries(clansKey) },
         onMutate: () => { setButtonsDisabled(true) },
         onSettled: () => { setButtonsDisabled(false) }
     })
@@ -62,7 +66,7 @@ const LairWithLoadedClan = ({ clanId }: { clanId: number }) => {
     }
 
     return (
-        <LairContext.Provider value={{ buttonsDisabled, mutateLair, lair }}>
+        <LairContext.Provider value={{ buttonsDisabled, lair, upgradeLairMutation, clan }}>
             <Grid>
                 <Grid.Col span={4}>
                     <HeadquarterCard />
