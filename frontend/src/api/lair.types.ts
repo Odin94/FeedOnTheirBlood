@@ -41,10 +41,10 @@ export const useUpdateLair = (options?: MutationFunctions) => {
 }
 
 export const getAttributeUpgradeCost = (lair: Lair, attribute: LairAttribute) => {
-    return (lair[attribute] * 100) * (lair[attribute] * 15)
+    return (lair[attribute] * 100) * (lair[attribute] * 2)
 }
 
-type LairAttribute = 'headquarter_defense' | 'headquarter_luxury' | 'headquarter_hidden' |
+export type LairAttribute = 'headquarter_defense' | 'headquarter_luxury' | 'headquarter_hidden' |
     'armory_weapons' | 'armory_armor' |
     'domain_control' | 'domain_herd' |
     'laboratory_equipment' | 'laboratory_worker_slots' |

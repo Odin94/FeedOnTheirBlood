@@ -1,6 +1,7 @@
-import { Badge, Button, Card, Divider, Grid, Group, Image, Loader, Stack, Text } from "@mantine/core"
+import { Badge, Card, Divider, Grid, Group, Image, Loader, Stack, Text } from "@mantine/core"
 import { useContext } from "react"
 import { LairContext } from "../../pages/MyLair"
+import LairUpgradeButton from "./UpgradeButton"
 
 const LaboratoryCard = () => {
     const lairContext = useContext(LairContext)
@@ -9,7 +10,7 @@ const LaboratoryCard = () => {
             <Loader color="grape" />
         )
     }
-    const { lair, upgradeLairMutation, buttonsDisabled, clan } = lairContext
+    const { lair } = lairContext
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
@@ -38,16 +39,12 @@ const LaboratoryCard = () => {
                 <Grid>
                     <Grid.Col span={9}><Text>Equipment: {lair.laboratory_equipment}</Text></Grid.Col>
                     <Grid.Col span={3}>
-                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => upgradeLairMutation.mutate({ lair, attribute: "laboratory_equipment", clan })} disabled={buttonsDisabled}>
-                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
-                        </Button>
+                        <LairUpgradeButton attribute="laboratory_equipment" />
                     </Grid.Col>
 
                     <Grid.Col span={9}><Text>Worker Slots: {lair.laboratory_worker_slots}</Text></Grid.Col>
                     <Grid.Col span={3}>
-                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => upgradeLairMutation.mutate({ lair, attribute: "laboratory_worker_slots", clan })} disabled={buttonsDisabled}>
-                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
-                        </Button>
+                        <LairUpgradeButton attribute="laboratory_worker_slots" />
                     </Grid.Col>
                 </Grid>
             </Stack>

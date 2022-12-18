@@ -1,6 +1,7 @@
-import { Badge, Button, Card, Divider, Grid, Group, Image, Loader, Stack, Text } from "@mantine/core"
+import { Badge, Card, Divider, Grid, Group, Image, Loader, Stack, Text } from "@mantine/core"
 import { useContext } from "react"
 import { LairContext } from "../../pages/MyLair"
+import LairUpgradeButton from "./UpgradeButton"
 
 const HeadquarterCard = () => {
     const lairContext = useContext(LairContext)
@@ -9,7 +10,7 @@ const HeadquarterCard = () => {
             <Loader color="grape" />
         )
     }
-    const { lair, upgradeLairMutation, buttonsDisabled, clan } = lairContext
+    const { lair } = lairContext
 
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
@@ -38,23 +39,17 @@ const HeadquarterCard = () => {
                 <Grid>
                     <Grid.Col span={9}><Text>Defense: {lair.headquarter_defense}</Text></Grid.Col>
                     <Grid.Col span={3}>
-                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => upgradeLairMutation.mutate({ lair, attribute: "headquarter_defense", clan })} disabled={buttonsDisabled}>
-                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
-                        </Button>
+                        <LairUpgradeButton attribute="headquarter_defense" />
                     </Grid.Col>
 
                     <Grid.Col span={9}><Text>Luxury: {lair.headquarter_luxury}</Text></Grid.Col>
                     <Grid.Col span={3}>
-                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => upgradeLairMutation.mutate({ lair, attribute: "headquarter_luxury", clan })} disabled={buttonsDisabled}>
-                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
-                        </Button>
+                        <LairUpgradeButton attribute="headquarter_luxury" />
                     </Grid.Col>
 
                     <Grid.Col span={9}><Text>Hidden: {lair.headquarter_hidden}</Text></Grid.Col>
                     <Grid.Col span={3}>
-                        <Button variant="light" color="grape" fullWidth radius="xl" onClick={() => upgradeLairMutation.mutate({ lair, attribute: "headquarter_hidden", clan })} disabled={buttonsDisabled}>
-                            <Image alt="increment" src={"https://www.svgrepo.com/show/316388/plus.svg"} width="20" style={{ filter: "invert(100%) sepia(0%) saturate(0%) hue-rotate(121deg) brightness(113%) contrast(101%)" }} />
-                        </Button>
+                        <LairUpgradeButton attribute="headquarter_hidden" />
                     </Grid.Col>
                 </Grid>
             </Stack>
