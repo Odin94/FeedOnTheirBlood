@@ -4,6 +4,8 @@ import { Clan, updateClan } from "./clans.types";
 import { Database } from "./database.types";
 import { MutationFunctions } from "./types";
 
+export const lairsKey = 'lairs'
+
 export async function getLair(clanId: number) {
     const { data, error } = await supabase.from('lairs').select().eq("clan_id", clanId).single()
 
@@ -12,7 +14,7 @@ export async function getLair(clanId: number) {
 }
 
 export const useLair = (clanId: number) => {
-    return useQuery('lairs', () => getLair(clanId))
+    return useQuery(lairsKey, () => getLair(clanId))
 }
 
 const insertLair = async (lair: LairInsert) => {
@@ -33,7 +35,7 @@ export const useUpdateLair = (options?: MutationFunctions) => {
     return useMutation((lair: LairInsert) => updateLair(lair),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('lairs')
+                queryClient.invalidateQueries(lairsKey)
                 if (options?.onSuccess) options.onSuccess()
             }, ...options
         }

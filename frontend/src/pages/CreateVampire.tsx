@@ -1,16 +1,19 @@
-import { Box, Button, Group, TextInput } from "@mantine/core";
+import { Button, Group, Text, TextInput, Tooltip } from "@mantine/core";
 import { useForm, UseFormReturnType } from '@mantine/form';
 import { useState } from 'react';
-import { getMyClan } from "../api/clans.types";
-import { useInsertVampire, VampireInsert } from "../api/vampires.type";
+import { useQueryClient } from "react-query";
+import { clansKey, getMyClan } from "../api/clans.types";
+import { getVampireTurningCost, useGetMyVampires, useTurnNewVampire, VampireInsert } from "../api/vampires.type";
+import bloodIcon from '../images/blood-svgrepo-com.svg';
 
 interface FormValues {
     name: string
 }
 
 const CreateVampire = () => {
+    const queryClient = useQueryClient()
     const [submitState, setSubmitState] = useState("")
-
+    const { data: myVampires, isLoading, error } = useGetMyVampires()
 
     const form = useForm<FormValues>({
         initialValues: {
@@ -21,8 +24,12 @@ const CreateVampire = () => {
             name: (value: string) => (value.length > 0 && value.length < 100 ? null : 'Invalid name'),
         },
     });
-    const insertVampireMutation = useInsertVampire({
-        onSuccess: () => { setSubmitState(`Successfully created ${form.values.name}`); form.reset() },
+    const turnNewVampireMutation = useTurnNewVampire({
+        onSuccess: () => {
+            setSubmitState(`Successfully turned ${form.values.name}`)
+            form.reset()
+            queryClient.invalidateQueries(clansKey)
+        },
         onError: (error) => { setSubmitState(`Oh no an error :( ${JSON.stringify(error)}`) }
     })
 
@@ -38,7 +45,7 @@ const CreateVampire = () => {
             clan_id: clan?.id
         }
 
-        insertVampireMutation.mutate(vampire)
+        turnNewVampireMutation.mutate({ vampire, clan, vampireCount: myVampires?.length ?? 0 })
     }
 
     return (
@@ -53,7 +60,9 @@ const CreateVampire = () => {
                 />
 
                 <Group position="right" mt="md">
-                    <Button type="submit" color="grape">Submit</Button>
+                    <Tooltip label={<Text><img alt="money" src={bloodIcon} width="20" style={{ marginRight: "5px" }} /> {getVampireTurningCost(myVampires?.length ?? 0)}</Text>}>
+                        <Button type="submit" color="grape" disabled={isLoading || !!error}>Turn new Vampire</Button>
+                    </Tooltip>
                 </Group>
             </form>
         </>

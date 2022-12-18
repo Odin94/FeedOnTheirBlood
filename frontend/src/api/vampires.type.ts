@@ -1,8 +1,11 @@
 import { useMutation, useQuery } from 'react-query'
 import supabase from '../utils/supabase'
+import { Clan, updateClan } from './clans.types'
 import { Database } from './database.types'
 import { MutationFunctions } from './types'
 import { getCurrentUser } from './user.type'
+
+const vampiresKey = 'vampires'
 
 const getVampires = async (): Promise<Vampires> => {
     const { data, error } = await supabase.from('vampires').select()
@@ -12,10 +15,10 @@ const getVampires = async (): Promise<Vampires> => {
 }
 
 export const useGetVampires = () => {
-    return useQuery('vampires', () => getVampires())
+    return useQuery(vampiresKey, () => getVampires())
 }
 
-const getMyVampires = async (): Promise<Vampires> => {
+export const getMyVampires = async (): Promise<Vampires> => {
     const user = await getCurrentUser()
     const { data, error } = await supabase.from('vampires').select('*, clans!inner(*)').eq('clans.user_id', user.id)
 
@@ -27,7 +30,7 @@ const getMyVampires = async (): Promise<Vampires> => {
 }
 
 export const useGetMyVampires = () => {
-    return useQuery('vampires', () => getMyVampires())
+    return useQuery(vampiresKey, () => getMyVampires())
 }
 
 
@@ -39,7 +42,7 @@ async function getVampire(id: number) {
 }
 
 export const useGetVampire = (id: number) => {
-    return useQuery(['vampires', id], () => getVampire(id))
+    return useQuery([vampiresKey, id], () => getVampire(id))
 }
 
 async function insertVampire(vampire: VampireInsert) {
@@ -48,6 +51,26 @@ async function insertVampire(vampire: VampireInsert) {
 }
 export const useInsertVampire = (options?: MutationFunctions) => {
     return useMutation((vampire: VampireInsert) => insertVampire(vampire), options)
+}
+
+export const getVampireTurningCost = (vampireCount: number) => {
+    return (vampireCount * 1000) * (vampireCount)
+}
+const turnNewVampire = async ({ vampire, clan, vampireCount }: { vampire: VampireInsert, clan: Clan, vampireCount: number }) => {
+    const cost = getVampireTurningCost(vampireCount)
+
+    if (clan.blood >= cost) {
+        clan.blood -= cost
+
+        // TODO: roll-back charging the cost if insertVampire fails
+        await updateClan(clan)
+        await insertVampire(vampire)
+    } else {
+        throw new Error("Not enough money")
+    }
+}
+export const useTurnNewVampire = (options?: MutationFunctions) => {
+    return useMutation(turnNewVampire, options)
 }
 
 async function updateVampire(vampire: VampireInsert) {
