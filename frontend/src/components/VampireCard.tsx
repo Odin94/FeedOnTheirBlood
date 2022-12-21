@@ -1,5 +1,6 @@
 import { Badge, Button, Card, Group, Image, SegmentedControl, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { showNotification } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import duration from "dayjs/plugin/duration";
 import utc from "dayjs/plugin/utc";
@@ -109,7 +110,7 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
     const startHunt = ({ time }: FormValues) => {
         switch (time) {
             case '10':
-                vampire.busy_until_utc = dayjs.utc().add(10, 'minutes').toISOString()
+                vampire.busy_until_utc = dayjs.utc().add(1, 'minutes').toISOString()
                 vampire.current_action = "hunt_10"
                 break;
             case '30':
@@ -151,6 +152,12 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
             money: clan.money + reward,
             blood: clan.blood + reward
         }, { onSuccess: () => { queryClient.invalidateQueries(clansKey); queryClient.invalidateQueries(vampiresKey); setClaimingRewards(false); } })
+
+        showNotification({
+            title: 'Hunting reward claimed!',
+            message: 'Gained 🩸500',
+            color: 'red'
+        })
     }
 
     if (isVampireDoneHunting(vampire)) return (

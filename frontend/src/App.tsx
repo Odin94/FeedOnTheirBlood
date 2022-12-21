@@ -1,29 +1,20 @@
 
 import { AppShell } from "@mantine/core";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { createContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Clan, useMyClan } from "./api/clans.types";
 import './App.css';
 import AppShellNavbar from "./components/AppShellNavbar";
 import GreyBox from "./components/GreyBox";
 import Inner from "./components/Inner";
 import CreateVampire from "./pages/CreateVampire";
 import Hunt from "./pages/Hunt";
-import MyLair from "./pages/MyLair";
 import Login from "./pages/Login";
+import MyLair from "./pages/MyLair";
 import SignUp from "./pages/SignUp";
 import UpdateVampire from "./pages/UpdateVampire";
 import Vampires from "./pages/Vampires";
-import { Clan, useMyClan } from "./api/clans.types";
-import { createContext } from "react";
 
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 0
-    }
-  }
-})
 
 export type ClanContextType = {
   clan?: Clan
@@ -32,15 +23,6 @@ export const ClanContext = createContext<ClanContextType | null>(null);
 
 
 const App = () => {
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AppAfterQueryProvider />
-    </QueryClientProvider>
-  )
-}
-
-const AppAfterQueryProvider = () => {
   const { data: clan } = useMyClan()
 
   return (
