@@ -169,7 +169,7 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
     if (isVampireCurrentlyBusy(vampire)) {
         return (
             <Text size="md">
-                Busy for {remainingTime}
+                Busy with {getActivityName(vampire)} for {remainingTime}
             </Text>
         )
     }
@@ -218,6 +218,14 @@ const isVampireDoneHunting = (vampire: Vampire) => {
     const doneDate = dayjs.utc(vampire.busy_until_utc)
     const now = dayjs.utc()
     return now.isAfter(doneDate)
+}
+
+const getActivityName = (vampire: Vampire) => {
+    if (vampire.current_action?.startsWith("hunt")) {
+        return "hunting"
+    }
+
+    return ""
 }
 
 export default VampireCard
