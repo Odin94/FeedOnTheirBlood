@@ -13,6 +13,7 @@ import { ClanContext } from '../App';
 import bloodIcon from '../images/blood-svgrepo-com.svg';
 import fangsIcon from '../images/fangs-svgrepo-com.svg';
 import healthIcon from '../images/health-cross-svgrepo-com.svg';
+import { randomFloatFromInterval } from '../utils/general-utils';
 
 interface FormValues {
     time: string
@@ -140,7 +141,7 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
         const duration = vampire.current_action?.split("_")[1]
         if (!duration || !rewardMap[duration]) throw new Error(`Invalid duration: ${duration} from action ${vampire.current_action}`)
         if (!clan) throw new Error("No clan provided")
-        const reward = rewardMap[duration]
+        const reward = rewardMap[duration] * randomFloatFromInterval(0.8, 1.2)
 
         vampireMutation.mutate({
             ...vampire,
@@ -155,7 +156,7 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
 
         showNotification({
             title: 'Hunting reward claimed!',
-            message: 'Gained 🩸500',
+            message: `Gained 🩸${reward}`,
             color: 'red'
         })
     }
