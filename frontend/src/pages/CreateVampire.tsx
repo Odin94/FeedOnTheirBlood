@@ -14,6 +14,7 @@ const CreateVampire = () => {
     const queryClient = useQueryClient()
     const [submitState, setSubmitState] = useState("")
     const { data: myVampires, isLoading, error } = useGetMyVampires()
+    const [showConfirmButtons, setShowConfirmButtons] = useState(false)
 
     const form = useForm<FormValues>({
         initialValues: {
@@ -59,11 +60,17 @@ const CreateVampire = () => {
                     {...form.getInputProps('name')}
                 />
 
-                <Group position="right" mt="md">
+                <Group position="center" mt="md">
                     <Tooltip label={<Text><img alt="money" src={bloodIcon} width="20" style={{ marginRight: "5px" }} /> {getVampireTurningCost(myVampires?.length ?? 0)}</Text>}>
-                        <Button type="submit" color="grape" disabled={isLoading || !!error}>Turn new Vampire</Button>
+                        <Button color="grape" disabled={isLoading || !!error || showConfirmButtons} onClick={() => { setShowConfirmButtons(true) }}>Turn new Vampire</Button>
                     </Tooltip>
                 </Group>
+                {showConfirmButtons
+                    ? <Group position="apart" mt="md">
+                        <Button color="red" disabled={isLoading || !!error} onClick={() => { setShowConfirmButtons(false) }}>Cancel</Button>
+                        <Button type="submit" color="grape" disabled={isLoading || !!error}>Turn Vampire</Button>
+                    </Group>
+                    : null}
             </form>
         </>
     )
