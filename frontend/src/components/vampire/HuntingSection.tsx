@@ -1,66 +1,18 @@
-import { Badge, Button, Card, Group, Image, SegmentedControl, Text } from '@mantine/core';
+import { Button, Group, SegmentedControl, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import dayjs from 'dayjs';
-import duration from "dayjs/plugin/duration";
-import utc from "dayjs/plugin/utc";
 import { useContext, useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { clansKey, useUpdateClan } from '../api/clans.types';
-import { useUpdateVampire, Vampire, vampiresKey } from "../api/vampires.type";
-import { ClanContext } from '../App';
-import bloodIcon from '../images/blood-svgrepo-com.svg';
-import fangsIcon from '../images/fangs-svgrepo-com.svg';
-import healthIcon from '../images/health-cross-svgrepo-com.svg';
-import { randomFloatFromInterval } from '../utils/general-utils';
+import { clansKey, useUpdateClan } from '../../api/clans.types';
+import { useUpdateVampire, Vampire, vampiresKey } from "../../api/vampires.type";
+import { ClanContext } from '../../App';
+import { randomFloatFromInterval } from '../../utils/general-utils';
+import fangsIcon from '../../images/fangs-svgrepo-com.svg';
 
 interface FormValues {
     time: string
 }
-dayjs.extend(duration)
-dayjs.extend(utc)
-
-const VampireCard = ({ vampire }: { vampire: Vampire }) => {
-    const navigate = useNavigate()
-
-    return (
-        <Card shadow="sm" p="lg" radius="md" withBorder>
-            <Card.Section>
-                <Image
-                    src="https://images.unsplash.com/photo-1635319520353-194ef0284701?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80"
-                    height={270}
-                    alt="Vampire profile"
-                />
-            </Card.Section>
-
-            <Group position="apart" mt="md" mb="xs">
-                <Text weight={500}>{vampire?.name}</Text>
-                <Badge color="pink" variant="light">
-                    Lvl: 5
-                </Badge>
-            </Group>
-
-            <Text size="sm" color="dimmed">
-                This is a real cool vampire sample text lorem ipsum dolor sit amet
-            </Text>
-            <Text size="sm" color="dimmed">
-                {/* filter property for coloring svgs: https://codepen.io/sosuke/pen/Pjoqqp */}
-                <img alt="blood" src={healthIcon} width="20" style={{ filter: "invert(96%) sepia(4%) saturate(1720%) hue-rotate(217deg) brightness(111%) contrast(100%)" }} /> {vampire?.current_health} / {vampire?.max_health}
-            </Text>
-            <Text size="sm" color="dimmed">
-                <img alt="blood" src={bloodIcon} width="20" /> {vampire?.current_blood} / {vampire?.max_blood}
-            </Text>
-
-            <HuntingSection vampire={vampire} />
-
-            <Button variant="light" color="grape" fullWidth mt="md" radius="md" onClick={() => { navigate(`/vampires/${vampire.id}`) }}>
-                Edit
-            </Button>
-        </Card>
-    )
-}
-
 const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
     const queryClient = useQueryClient()
     const [remainingTime, setRemainingTime] = useState<string>("00:00:00")
@@ -229,4 +181,4 @@ const getActivityName = (vampire: Vampire) => {
     return ""
 }
 
-export default VampireCard
+export default HuntingSection
