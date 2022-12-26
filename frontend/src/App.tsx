@@ -7,6 +7,7 @@ import './App.css';
 import AppShellNavbar from "./components/AppShellNavbar";
 import GreyBox from "./components/GreyBox";
 import Inner from "./components/Inner";
+import ClanWar from "./pages/ClanWar";
 import CreateVampire from "./pages/CreateVampire";
 import Hunt from "./pages/Hunt";
 import Login from "./pages/Login";
@@ -43,6 +44,7 @@ const App = () => {
               <Route path="/login" element={<GreyBox><Login /></GreyBox>} />
               <Route path="/vampires/:id" element={<UpdateVampire />} />
               <Route path="/lair" element={<MyLair />} />
+              <Route path="/clanwar" element={<ClanWar />} />
             </Routes>
           </Inner>
         </AppShell>
