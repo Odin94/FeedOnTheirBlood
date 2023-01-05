@@ -1,5 +1,5 @@
 
-import { Button, Loader, Text } from "@mantine/core";
+import { Button, Divider, Loader, Text } from "@mantine/core";
 
 import { Group, TextInput } from '@mantine/core';
 import { useForm } from "@mantine/form";
@@ -35,17 +35,6 @@ const Login = () => {
         )
     }
 
-    if (signInWithEmailMutation.isError) {
-        return (
-            <Text color="red">Error: {(signInWithEmailMutation.error as Error).message}</Text>
-        )
-    }
-    if (signOutMutation.isError) {
-        return (
-            <Text color="red">Error: {(signOutMutation.error as Error).message}</Text>
-        )
-    }
-
     return (
         <>
             {!!session
@@ -78,11 +67,23 @@ const Login = () => {
                         </Group>
                     </form>
 
-                    <hr />
+                    <Divider my="md" />
 
-                    <Button color="gray" onClick={() => signInWithGithubMutation.mutate()}>
-                        SignIn with Github
-                    </Button>
+                    <Group position="center">
+                        <Button color="gray" onClick={() => signInWithGithubMutation.mutate()}>
+                            SignIn with Github
+                        </Button>
+                    </Group>
+
+                    {signInWithEmailMutation.isError
+                        ? <Text color="red">Login Error: {(signInWithEmailMutation.error as Error).message}</Text>
+                        : null
+                    }
+                    {signOutMutation.isError
+                        ? <Text color="red">Logout Error: {(signOutMutation.error as Error).message}</Text>
+                        : null
+                    }
+
                     {(signInWithEmailMutation.isLoading || signOutMutation.isLoading) ? <Loader /> : null}
                 </div>
             }
