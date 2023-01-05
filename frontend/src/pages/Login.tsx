@@ -3,6 +3,7 @@ import { Button, Divider, Loader, Text } from "@mantine/core";
 
 import { Group, TextInput } from '@mantine/core';
 import { useForm } from "@mantine/form";
+import { useNavigate } from "react-router-dom";
 import { useSession, useSignInWithEmail, useSignInWithGithub, useSignOut } from "../api/user.type";
 
 interface FormValues {
@@ -11,6 +12,7 @@ interface FormValues {
 }
 
 const Login = () => {
+    const navigate = useNavigate()
     const { data: session, isLoading: sessionIsLoading } = useSession()
 
     const form = useForm<FormValues>({
@@ -25,8 +27,12 @@ const Login = () => {
         },
     });
 
-    const signInWithEmailMutation = useSignInWithEmail(form.values.email, form.values.password)
-    const signInWithGithubMutation = useSignInWithGithub()
+    const signInWithEmailMutation = useSignInWithEmail(form.values.email, form.values.password, {
+        onSuccess: () => { navigate("/") }
+    })
+    const signInWithGithubMutation = useSignInWithGithub({
+        onSuccess: () => { navigate("/") }
+    })
     const signOutMutation = useSignOut()
 
     if (sessionIsLoading) {

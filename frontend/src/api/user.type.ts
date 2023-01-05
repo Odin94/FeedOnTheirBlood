@@ -1,6 +1,7 @@
 import { AuthError, Session, User } from "@supabase/supabase-js"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import supabase from "../utils/supabase"
+import { MutationFunctions } from "./types"
 
 
 export type SessionResponse = { data: { session: Session } | { session: null }, error: AuthError | null }
@@ -41,8 +42,8 @@ const signUpWithEmail = async (email: string, password: string) => {
     return data
 }
 
-export const useSignUpWithEmail = (email: string, password: string) => {
-    return useMutation(() => signUpWithEmail(email, password))
+export const useSignUpWithEmail = (email: string, password: string, options?: MutationFunctions) => {
+    return useMutation(() => signUpWithEmail(email, password), options)
 }
 
 const signInWithGithub = async () => {
@@ -55,11 +56,15 @@ const signInWithGithub = async () => {
     return data
 }
 
-export const useSignInWithGithub = () => {
+export const useSignInWithGithub = (options?: MutationFunctions) => {
     const queryClient = useQueryClient()
 
     return useMutation('signIn', () => signInWithGithub(), {
-        onSuccess: () => queryClient.invalidateQueries()
+        ...options,
+        onSuccess: () => {
+            queryClient.invalidateQueries()
+            options?.onSuccess?.()
+        },
     })
 }
 
@@ -73,11 +78,15 @@ const signInWithEmail = async (email: string, password: string) => {
     return data
 }
 
-export const useSignInWithEmail = (email: string, password: string) => {
+export const useSignInWithEmail = (email: string, password: string, options?: MutationFunctions) => {
     const queryClient = useQueryClient()
 
     return useMutation(() => signInWithEmail(email, password), {
-        onSuccess: () => queryClient.invalidateQueries()
+        ...options,
+        onSuccess: () => {
+            queryClient.invalidateQueries()
+            options?.onSuccess?.()
+        },
     })
 }
 

@@ -49,9 +49,6 @@ async function insertVampire(vampire: VampireInsert) {
     const { error } = await supabase.from('vampires').insert([{ ...vampire }])
     return { error }
 }
-export const useInsertVampire = (options?: MutationFunctions) => {
-    return useMutation((vampire: VampireInsert) => insertVampire(vampire), options)
-}
 
 export const getVampireTurningCost = (vampireCount: number) => {
     return (vampireCount * 1000) * (vampireCount)
