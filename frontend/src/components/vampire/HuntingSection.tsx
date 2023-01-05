@@ -15,7 +15,7 @@ interface FormValues {
 }
 const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
     const queryClient = useQueryClient()
-    const [remainingTime, setRemainingTime] = useState<string>("00:00:00")
+    const [remainingTime, setRemainingTime] = useState<string>("--:--:--")
     const [claimingRewards, setClaimingRewards] = useState(false)
     const vampireMutation = useUpdateVampire()
     const clanMutation = useUpdateClan()
@@ -36,18 +36,21 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
             return `${num}`
         }
 
-        const interval = setInterval(function () {
-            duration = dayjs.duration(
-                duration.asMilliseconds() - intervalMillis,
-                "milliseconds"
-            )
-            let timestamp = `${dd(duration.hours())}:${dd(duration.minutes())}:${dd(duration.seconds())}`
-            if (!timestamp.includes("NaN")) {
-                setRemainingTime(timestamp)
-            }
-        }, intervalMillis)
+        // Without this check each HuntingSection will have an automatic counter ticking down, even if the vampire isn't busy at all
+        if (duration.asMilliseconds() > 0) {
+            const interval = setInterval(function () {
+                duration = dayjs.duration(
+                    duration.asMilliseconds() - intervalMillis,
+                    "milliseconds"
+                )
+                let timestamp = `${dd(duration.hours())}:${dd(duration.minutes())}:${dd(duration.seconds())}`
+                if (!timestamp.includes("NaN") && duration.asMilliseconds() >= 0) {
+                    setRemainingTime(timestamp)
+                }
+            }, intervalMillis)
 
-        return () => { clearTimeout(interval) }
+            return () => { clearTimeout(interval) }
+        }
     }, [vampire.busy_until_utc])
 
     const form = useForm<FormValues>({
@@ -65,14 +68,18 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
             case '10':
                 vampire.busy_until_utc = dayjs.utc().add(1, 'minutes').toISOString()
                 vampire.current_action = "hunt_10"
+                // Setting time manually to avoid issues with the interval only updating after a second
+                setRemainingTime("00:10:00")
                 break;
             case '30':
                 vampire.busy_until_utc = dayjs.utc().add(30, 'minutes').toISOString()
                 vampire.current_action = "hunt_30"
+                setRemainingTime("00:30:00")
                 break;
             case '60':
                 vampire.busy_until_utc = dayjs.utc().add(60, 'minutes').toISOString()
                 vampire.current_action = "hunt_60"
+                setRemainingTime("00:60:00")
                 break;
             default:
                 throw Error(`Failed to hunt for vampire ${vampire}`)
