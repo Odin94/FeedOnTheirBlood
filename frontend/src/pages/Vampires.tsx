@@ -1,10 +1,11 @@
 
 
-import { Button, Grid, Loader, Text } from "@mantine/core";
+import { Button, Divider, Grid, Loader, Text } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { useGetMyVampires } from "../api/vampires.type";
 import HuntingSection from "../components/vampire/HuntingSection";
 import VampireCard from "../components/vampire/VampireCard";
+import WorkSection from "../components/vampire/WorkSection";
 
 const VampiresPage = () => {
     const navigate = useNavigate()
@@ -20,7 +21,13 @@ const VampiresPage = () => {
                         <Grid.Col key={vampire.id} span={6}>
                             <VampireCard vampire={vampire}>
                                 <>
+                                    <Divider my="sm" />
+
                                     <HuntingSection vampire={vampire} />
+
+                                    <Divider my="sm" />
+
+                                    <WorkSection vampire={vampire} />
 
                                     <Button variant="light" color="grape" fullWidth mt="md" radius="md" onClick={() => { navigate(`/vampires/${vampire.id}`) }}>
                                         Edit
@@ -30,7 +37,8 @@ const VampiresPage = () => {
                         </Grid.Col>
                     ))}
                 </Grid>
-            ) : null}
+            ) : null
+            }
         </>
     );
 }

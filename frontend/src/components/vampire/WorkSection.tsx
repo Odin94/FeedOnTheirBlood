@@ -8,13 +8,13 @@ import { clansKey, useUpdateClan } from '../../api/clans.types';
 import { useUpdateVampire, Vampire, vampiresKey } from "../../api/vampires.type";
 import { ClanContext } from '../../App';
 import { randomFloatFromInterval } from '../../utils/general-utils';
-import fangsIcon from '../../images/fangs-svgrepo-com.svg';
+import coinIcon from '../../images/coin-svgrepo-com.svg';
 import { getActivityName, isVampireCurrentlyBusy, isVampireDoneWith } from './VampireUtils';
 
 interface FormValues {
     time: string
 }
-const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
+const WorkSection = ({ vampire }: { vampire: Vampire }) => {
     const queryClient = useQueryClient()
     const [remainingTime, setRemainingTime] = useState<string>("--:--:--")
     const [claimingRewards, setClaimingRewards] = useState(false)
@@ -37,7 +37,7 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
             return `${num}`
         }
 
-        // Without this check each HuntingSection will have an automatic counter ticking down, even if the vampire isn't busy at all
+        // Without this check each WorkSection will have an automatic counter ticking down, even if the vampire isn't busy at all
         if (duration.asMilliseconds() > 0) {
             const interval = setInterval(function () {
                 duration = dayjs.duration(
@@ -56,7 +56,7 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
 
     const form = useForm<FormValues>({
         initialValues: {
-            time: "10",
+            time: "1",
         },
 
         validate: {
@@ -64,27 +64,27 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
         },
     })
 
-    const startHunt = ({ time }: FormValues) => {
+    const startWork = ({ time }: FormValues) => {
         switch (time) {
-            case '10':
+            case '1':
                 // Lower time set for testing
                 vampire.busy_until_utc = dayjs.utc().add(10, 'seconds').toISOString()
-                vampire.current_action = "hunt_10"
+                vampire.current_action = "work_1"
                 // Setting time manually to avoid issues with the interval only updating after a second
-                setRemainingTime("00:10:00")
-                break;
-            case '30':
-                vampire.busy_until_utc = dayjs.utc().add(30, 'minutes').toISOString()
-                vampire.current_action = "hunt_30"
-                setRemainingTime("00:30:00")
-                break;
-            case '60':
-                vampire.busy_until_utc = dayjs.utc().add(60, 'minutes').toISOString()
-                vampire.current_action = "hunt_60"
                 setRemainingTime("00:60:00")
                 break;
+            case '3':
+                vampire.busy_until_utc = dayjs.utc().add(3, 'hours').toISOString()
+                vampire.current_action = "work_3"
+                setRemainingTime("03:00:00")
+                break;
+            case '6':
+                vampire.busy_until_utc = dayjs.utc().add(6, 'hours').toISOString()
+                vampire.current_action = "work_6"
+                setRemainingTime("06:00:00")
+                break;
             default:
-                throw Error(`Failed to hunt for vampire ${vampire}`)
+                throw Error(`Failed to work for vampire ${vampire}`)
         }
 
         vampireMutation.mutate(vampire)
@@ -94,9 +94,9 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
         setClaimingRewards(true)
 
         const rewardMap: Record<string, number> = {
-            "10": 500,
-            "30": 1000,
-            "60": 3000,
+            "1": 500,
+            "3": 1000,
+            "6": 3000,
         }
 
         const duration = vampire.current_action?.split("_")[1]
@@ -111,23 +111,23 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
         })
         clanMutation.mutate({
             ...clan,
-            blood: clan.blood + reward
+            money: clan.money + reward,
         }, { onSuccess: () => { queryClient.invalidateQueries(clansKey); queryClient.invalidateQueries(vampiresKey); setClaimingRewards(false); } })
 
         showNotification({
-            title: `Gained 🩸${reward}`,
-            message: "",
-            color: 'red'
+            title: `Gained 💰${reward}`,
+            message: ``,
+            color: 'yellow'
         })
     }
 
-    if (isVampireDoneWith("hunt", vampire)) return (
+    if (isVampireDoneWith("work", vampire)) return (
         <Button variant="light" color="grape" fullWidth mt="md" radius="md" onClick={claimRewards} disabled={claimingRewards}
-            leftIcon={<img alt="fangs" src={fangsIcon} width="20" style={{ filter: "invert(96%) sepia(4%) saturate(1720%) hue-rotate(217deg) brightness(111%) contrast(100%)" }} />}>
+            leftIcon={<img alt="coins" src={coinIcon} width="20" />}>
             Claim Rewards
         </Button>
     )
-    if (isVampireCurrentlyBusy(vampire) && getActivityName(vampire) === "hunting") {
+    if (isVampireCurrentlyBusy(vampire) && getActivityName(vampire) === "work") {
         return (
             <Text size="md">
                 Busy with {getActivityName(vampire)} for {remainingTime}
@@ -136,18 +136,18 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
     }
 
     return (
-        <form onSubmit={form.onSubmit((_values) => startHunt(form.values))}>
+        <form onSubmit={form.onSubmit((_values) => startWork(form.values))}>
             <Group position="center" mt="md">
                 <SegmentedControl
                     name={`time-${vampire.id}`}
-                    color="red"
+                    color="yellow"
                     transitionDuration={200}
                     transitionTimingFunction="linear"
                     {...form.getInputProps('time')}
                     data={[
-                        { label: 'Quick - 10 min', value: '10' },
-                        { label: 'Medium - 30 min', value: '30' },
-                        { label: 'Long - 60 min', value: '60' },
+                        { label: 'Quick - 1 hour', value: '1' },
+                        { label: 'Medium - 3 hours', value: '3' },
+                        { label: 'Long - 6 hours', value: '6' },
                     ]}
                 />
             </Group>
@@ -156,14 +156,14 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
                 <Button
                     disabled={isVampireCurrentlyBusy(vampire)}
                     type="submit"
-                    color="red"
-                    size="lg"
+                    color="yellow.8"
                     variant="outline"
-                    leftIcon={<img alt="fangs" src={fangsIcon} width="20" style={{ filter: "invert(96%) sepia(4%) saturate(1720%) hue-rotate(217deg) brightness(111%) contrast(100%)" }} />}
-                >Hunt!</Button>
+                    leftIcon={<img alt="coins" src={coinIcon} width="20" />}
+                >Go to work</Button>
+                {/* TODO: Make sure to re-render the whole vampire card when starting or ending work/hunt so "disabled" and reward button are set correctly */}
             </Group>
         </form>
     )
 }
 
-export default HuntingSection
+export default WorkSection
