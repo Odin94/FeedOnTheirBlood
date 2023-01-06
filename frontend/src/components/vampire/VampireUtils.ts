@@ -1,5 +1,10 @@
-import dayjs from "dayjs"
-import { Vampire } from "../../api/vampires.type"
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import utc from "dayjs/plugin/utc";
+import { Vampire } from "../../api/vampires.type";
+
+dayjs.extend(duration)
+dayjs.extend(utc)
 
 export const isVampireCurrentlyBusy = (vampire: Vampire) => {
     if (vampire.current_action) return true

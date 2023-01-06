@@ -87,7 +87,11 @@ const WorkSection = ({ vampire }: { vampire: Vampire }) => {
                 throw Error(`Failed to work for vampire ${vampire}`)
         }
 
-        vampireMutation.mutate(vampire)
+        vampireMutation.mutate(vampire, {
+            onSuccess: () => {
+                queryClient.invalidateQueries(vampiresKey)
+            }
+        })
     }
 
     const claimRewards = () => {
@@ -160,7 +164,6 @@ const WorkSection = ({ vampire }: { vampire: Vampire }) => {
                     variant="outline"
                     leftIcon={<img alt="coins" src={coinIcon} width="20" />}
                 >Go to work</Button>
-                {/* TODO: Make sure to re-render the whole vampire card when starting or ending work/hunt so "disabled" and reward button are set correctly */}
             </Group>
         </form>
     )

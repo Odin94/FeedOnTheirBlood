@@ -87,7 +87,11 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
                 throw Error(`Failed to hunt for vampire ${vampire}`)
         }
 
-        vampireMutation.mutate(vampire)
+        vampireMutation.mutate(vampire, {
+            onSuccess: () => {
+                queryClient.invalidateQueries(vampiresKey)
+            }
+        })
     }
 
     const claimRewards = () => {

@@ -20,19 +20,17 @@ const VampiresPage = () => {
                     {vampires.map((vampire) => (
                         <Grid.Col key={vampire.id} span={6}>
                             <VampireCard vampire={vampire}>
-                                <>
-                                    <Divider my="sm" />
+                                <Divider my="sm" />
 
-                                    <HuntingSection vampire={vampire} />
+                                <HuntingSection vampire={vampire} />
 
-                                    <Divider my="sm" />
+                                <Divider my="sm" />
 
-                                    <WorkSection vampire={vampire} />
+                                <WorkSection vampire={vampire} />
 
-                                    <Button variant="light" color="grape" fullWidth mt="md" radius="md" onClick={() => { navigate(`/vampires/${vampire.id}`) }}>
-                                        Edit
-                                    </Button>
-                                </>
+                                <Button variant="light" color="grape" fullWidth mt="md" radius="md" onClick={() => { navigate(`/vampires/${vampire.id}`) }}>
+                                    Edit
+                                </Button>
                             </VampireCard>
                         </Grid.Col>
                     ))}

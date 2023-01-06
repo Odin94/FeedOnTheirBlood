@@ -1,15 +1,10 @@
 import { Badge, Card, Group, Image, Text } from '@mantine/core';
-import dayjs from 'dayjs';
-import duration from "dayjs/plugin/duration";
-import utc from "dayjs/plugin/utc";
+
 import { Vampire } from "../../api/vampires.type";
 import bloodIcon from '../../images/blood-svgrepo-com.svg';
 import healthIcon from '../../images/health-cross-svgrepo-com.svg';
 
-dayjs.extend(duration)
-dayjs.extend(utc)
-
-const VampireCard = ({ vampire, children }: { vampire: Vampire, children?: React.ReactElement }) => {
+const VampireCard = ({ vampire, children }: { vampire: Vampire, children?: React.ReactNode }) => {
     return (
         <Card shadow="sm" p="lg" radius="md" withBorder>
             <Card.Section>
