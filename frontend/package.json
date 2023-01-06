@@ -50,6 +50,6 @@
     ]
   },
   "devDependencies": {
-    "supabase": "^1.17.4"
+    "supabase": "^1.29.1"
   }
 }
