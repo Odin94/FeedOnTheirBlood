@@ -115,36 +115,36 @@ export interface Database {
       vampires: {
         Row: {
           id: number
-          created_at: string | null
-          name: string | null
-          max_blood: number | null
-          current_blood: number | null
-          max_health: number | null
-          current_health: number | null
+          created_at: string
+          name: string
+          max_blood: number
+          current_blood: number
+          max_health: number
+          current_health: number
           clan_id: number | null
           current_action: string | null
           busy_until_utc: string | null
         }
         Insert: {
           id?: number
-          created_at?: string | null
-          name?: string | null
-          max_blood?: number | null
-          current_blood?: number | null
-          max_health?: number | null
-          current_health?: number | null
+          created_at?: string
+          name: string
+          max_blood?: number
+          current_blood?: number
+          max_health?: number
+          current_health?: number
           clan_id?: number | null
           current_action?: string | null
           busy_until_utc?: string | null
         }
         Update: {
           id?: number
-          created_at?: string | null
-          name?: string | null
-          max_blood?: number | null
-          current_blood?: number | null
-          max_health?: number | null
-          current_health?: number | null
+          created_at?: string
+          name?: string
+          max_blood?: number
+          current_blood?: number
+          max_health?: number
+          current_health?: number
           clan_id?: number | null
           current_action?: string | null
           busy_until_utc?: string | null
