@@ -59,7 +59,7 @@ const AppShellNavbar = () => {
                                         </Text>
                                         <br />
                                         <Text component={Link} variant="link" to="/hunt">
-                                            <img alt="knife" src={knifeIcon} width="40" style={{ filter: oliveSvgFilter, marginRight: "10px" }} /> Hunt
+                                            <img alt="knife" src={knifeIcon} width="40" style={{ filter: oliveSvgFilter, marginRight: "10px" }} /> Hunt Lycans
                                         </Text>
                                         <br />
                                         <Text component={Link} variant="link" to="/lair">

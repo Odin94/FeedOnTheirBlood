@@ -9,7 +9,7 @@ import GreyBox from "./components/GreyBox";
 import Inner from "./components/Inner";
 import ClanWar from "./pages/ClanWar";
 import CreateVampire from "./pages/CreateVampire";
-import Hunt from "./pages/Hunt";
+import HuntLycans from "./pages/HuntLycans";
 import Login from "./pages/Login";
 import MyLair from "./pages/MyLair";
 import SignUp from "./pages/SignUp";
@@ -40,7 +40,7 @@ const App = () => {
               <Route path="/" element={<Vampires />} />
               <Route path="/signup" element={<GreyBox><SignUp /></GreyBox>} />
               <Route path="/create" element={<GreyBox><CreateVampire /></GreyBox>} />
-              <Route path="/hunt" element={<Hunt />} />
+              <Route path="/hunt" element={<HuntLycans />} />
               <Route path="/login" element={<GreyBox><Login /></GreyBox>} />
               <Route path="/vampires/:id" element={<UpdateVampire />} />
               <Route path="/lair" element={<MyLair />} />
