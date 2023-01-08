@@ -110,6 +110,7 @@ const HuntingSection = ({ vampire }: { vampire: Vampire }) => {
 
         vampireMutation.mutate({
             ...vampire,
+            current_blood: vampire.max_blood,
             busy_until_utc: null,
             current_action: null
         })
