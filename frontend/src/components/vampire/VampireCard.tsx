@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Grid, Group, Image, Text } from '@mantine/core';
+import { Badge, Button, Card, Grid, Group, Image, Text, Tooltip } from '@mantine/core';
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
@@ -51,9 +51,12 @@ const VampireCard = ({ vampire, children }: { vampire: Vampire, children?: React
                         <img alt="blood" src={healthIcon} width="20" style={{ filter: "invert(96%) sepia(4%) saturate(1720%) hue-rotate(217deg) brightness(111%) contrast(100%)" }} /> {vampire?.current_health} / {vampire?.max_health}
                     </Text>
                 </Grid.Col>
+
                 <Grid.Col offset={7} span={2}>
-                    <Button compact onClick={() => { healVampire() }}
-                        color="red.0" disabled={vampire.current_blood <= 0 || vampire.current_health === vampire.max_health || healing}><Text color={"black"}>Heal</Text></Button>
+                    <Tooltip label={<Text>🩸1</Text>}>
+                        <Button compact onClick={() => { healVampire() }}
+                            color="red.0" disabled={vampire.current_blood <= 0 || vampire.current_health === vampire.max_health || healing}><Text color={"black"}>Heal</Text></Button>
+                    </Tooltip>
                 </Grid.Col>
             </Grid>
             <Text size="sm" color="dimmed">
